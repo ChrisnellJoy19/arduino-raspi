@@ -4,7 +4,7 @@ import serial
 class Machine:
     def __init__(self) -> None: #initializer    
         self.available_commands = [0,1,2,3,4] 
-        self.arduino = serial.Serial('COM9', 9600, timeout = 100) #represent arduino object
+        self.arduino = serial.Serial('COM9', 9600, timeout = 1) #represent arduino object
 
     def send_command(self, command: int):
         '''
@@ -68,9 +68,7 @@ class Machine:
             '''
             self.send_command(4)
             response = self.get_arduino_response()
-            print(response)
             while not response:
                 response = self.get_arduino_response()
-                print(response)
             distance = float(response)
             return distance
