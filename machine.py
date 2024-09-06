@@ -38,31 +38,31 @@ class Machine:
             response = self.arduino.readline().decode('utf-8').rstrip()
         return response
     
-    def turnOffRelay(self):
+    def turn_off_relay(self):
             '''
             unlock
             '''
             self.send_command(0)
             
-    def turnOnRelay(self):
+    def turn_on_relay(self):
             '''
             lock
             '''
             self.send_command(1)
 
-    def setColorRed(self):
+    def set_color_red(self):
             '''
             set LED to red
             '''
             self.send_command(2)
 
-    def setColorGreen(self):
+    def set_color_green(self):
             '''
             set LED to green
             '''
             self.send_command(3)
 
-    def getDistance(self):
+    def get_distance(self):
             '''
             get distance
             '''
