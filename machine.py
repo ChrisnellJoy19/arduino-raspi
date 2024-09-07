@@ -1,19 +1,18 @@
-#library
 import serial
 
 class Machine:
-    def __init__(self) -> None: #initializer    
+    def __init__(self) -> None: 
         self.available_commands = [0,1,2,3,4] 
-        self.arduino = serial.Serial('COM9', 9600, timeout = 1) #represent arduino object
+        self.arduino = serial.Serial('COM9', 9600, timeout = 1) 
 
     def send_command(self, command: int):
-        '''
+        """
         Send command to arduino. 
         Can be used to explicitly invoke Arduino operation without calling specific functions \n
 
         Parameters:
         command (int) : Command to send
-        '''
+        """
         if(command in self.available_commands):
             while True:
                 self.arduino.write(bytes(str(command)+'\n','utf-8'))
@@ -23,52 +22,15 @@ class Machine:
         else:
             raise Exception('Unknown command')
 
-
-
     def get_arduino_response(self) -> str:
-        '''
+        """
         Get arduino serial response
 
         Returns:
         response (str) : Arduino response
-        '''
+        """
         try:
             response = self.arduino.readline().decode('utf-8').rstrip()
         except UnicodeDecodeError:
             response = self.arduino.readline().decode('utf-8').rstrip()
         return response
-    
-    def turn_off_relay(self):
-            '''
-            unlock
-            '''
-            self.send_command(0)
-            
-    def turn_on_relay(self):
-            '''
-            lock
-            '''
-            self.send_command(1)
-
-    def set_color_red(self):
-            '''
-            set LED to red
-            '''
-            self.send_command(2)
-
-    def set_color_green(self):
-            '''
-            set LED to green
-            '''
-            self.send_command(3)
-
-    def get_distance(self):
-            '''
-            get distance
-            '''
-            self.send_command(4)
-            response = self.get_arduino_response()
-            while not response:
-                response = self.get_arduino_response()
-            distance = float(response)
-            return distance
