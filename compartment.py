@@ -32,30 +32,30 @@ class Compartment:
         self.machine.send_command(self.turn_off_relay_cmd)
             
     def turn_on_relay(self):
-            """
-            lock
-            """
-            self.machine.send_command(self.turn_on_relay_cmd)
+        """
+        Turn on relay
+        """
+        self.machine.send_command(self.turn_on_relay_cmd)
 
     def set_color_red(self):
-            """
-            set LED to red
-            """
-            self.machine.send_command(self.set_color_red_cmd)
+        """
+        Set LED to red
+        """
+        self.machine.send_command(self.set_color_red_cmd)
 
     def set_color_green(self):
-            """
-            set LED to green
-            """
-            self.machine.send_command(self.set_color_green_cmd)
+        """
+        Set LED to green
+        """
+        self.machine.send_command(self.set_color_green_cmd)
 
     def get_distance(self):
-            """
-            get distance
-            """
-            self.machine.send_command(self.get_distance_cmd)
+        """
+        Get distance from ultrasonic sensor
+        """
+        self.machine.send_command(self.get_distance_cmd)
+        response = self.machine.get_arduino_response()
+        while not response:
             response = self.machine.get_arduino_response()
-            while not response:
-                response = self.machine.get_arduino_response()
-            distance = float(response)
-            return distance
+        distance = float(response)
+        return distance
