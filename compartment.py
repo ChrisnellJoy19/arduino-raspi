@@ -22,7 +22,6 @@ class Compartment:
         self.turn_on_relay_cmd = commands.pop('turn_on_relay')
         self.set_color_red_cmd = commands.pop('set_color_red')
         self.set_color_green_cmd = commands.pop('set_color_green')
-        self.set_color_blue_cmd = commands.pop('set_color_blue')
         self.get_distance_cmd = commands.pop('get_distance')
 
     def turn_off_relay(self):
