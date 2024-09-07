@@ -1,1 +1,15 @@
+# Environments
+.venv
+.env
+
+# Python cache
 __pycache__
+
+# Service account
+service.json
+
+# Logs
+*.log
+
+# Test scripts
+test.py
