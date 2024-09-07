@@ -1,4 +1,5 @@
 import firebase_admin
+import json
 import random
 import serial
 import sys
@@ -14,11 +15,25 @@ from utils import (
     dateutil
 )
 
-log_format = '<green>{time}</green> | <level>{level}</level> | <cyan>{name}</cyan>:<cyan>{line}</cyan> | <level>{message}</level> extra={extra}'
+log_base_format = '<green>{time}</green> | <level>{level}</level> | <cyan>{name}</cyan>:<cyan>{line}</cyan> | <level>{message}</level> {extra}\n'
+
+def format_extra(extra):
+    extra_str = ''
+    if isinstance(extra, dict):
+        extra_str = ' '.join(f'{key}={value}' for key, value in extra.items())
+    elif isinstance(extra, str):
+        extra_str = extra
+    return extra_str
+
+def log_format(record):
+    record['extra'] = format_extra(record.get('extra', {}))
+    return log_base_format.format(**record)
 
 class Machine:
     def __init__(self, port: str = None) -> None: 
-        self.logger = logger
+        import compartment
+
+        self.logger = logger.bind()
         logger.remove()
         self.logger.add(
             f'logs/machine.log', 
@@ -31,13 +46,29 @@ class Machine:
             colorize=True
         )
 
+        self.logger.info('Intializing machine')
         self.available_commands = [0,1,2,3,4] 
         self.arduino = serial.Serial(port, 9600, timeout = 1)
-        self.compartments = {}
+        self.logger.info(f'Arduino initialized', port=port)
+
         cred = credentials.Certificate('service.json') 
         firebase_admin.initialize_app(cred)
         self.database = firestore.client()
-        self.logger.info(f'Arduino initialized', port=port)
+        self.logger.info(f'Firestore initialized')
+
+        self.compartments: dict[str, compartment.Compartment] = {
+            '1': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 0,
+                    'turn_on_relay': 1,
+                    'set_color_red': 2,
+                    'set_color_green': 3,
+                    'get_distance': 4 
+                }
+            ),
+        }
+        self.logger.info(f'Compartments initialized')
 
     def send_command(self, command: int):
         """
