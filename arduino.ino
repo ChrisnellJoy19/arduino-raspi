@@ -78,13 +78,11 @@ void sendResponse(String response) {
 void turnOffRelay() {
   //unlock
   digitalWrite(relayPin, LOW);
-  delay(100);
 }
 
 void turnOnRelay() {
   //lock
   digitalWrite(relayPin, HIGH);
-  delay(100);
 }
 
 void setColorRed() {
@@ -98,12 +96,11 @@ void setColorGreen() {
 void detectItem() {
   sensorOut = digitalRead(irPin);
   if (sensorOut == LOW){
-    Serial.println("item detected");
+    Serial.println("1");
     digitalWrite(LED, HIGH);
     }
   else{
-    Serial.println("No item detected");
+    Serial.println("0");
     digitalWrite(LED, LOW);
     }
-  delay(200);
 }
