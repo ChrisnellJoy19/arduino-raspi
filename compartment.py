@@ -14,7 +14,7 @@ class Compartment:
             'turn_on_relay': 1,
             'set_color_red': 2,
             'set_color_green': 3,
-            'get_distance': 4 
+            'item_detection': 4 
         }
         """
         self.machine = machine
@@ -22,7 +22,7 @@ class Compartment:
         self.turn_on_relay_cmd = commands.pop('turn_on_relay')
         self.set_color_red_cmd = commands.pop('set_color_red')
         self.set_color_green_cmd = commands.pop('set_color_green')
-        self.get_distance_cmd = commands.pop('get_distance')
+        self.item_detection_cmd = commands.pop('item_detection')
 
     def turn_off_relay(self):
         """
@@ -48,13 +48,12 @@ class Compartment:
         """
         self.machine.send_command(self.set_color_green_cmd)
 
-    def get_distance(self):
+    def item_detection(self):
         """
-        Get distance from ultrasonic sensor
+        Detect item using ir proximity sensor
         """
-        self.machine.send_command(self.get_distance_cmd)
+        self.machine.send_command(self.item_detection_cmd)
         response = self.machine.get_arduino_response()
         while not response:
             response = self.machine.get_arduino_response()
-        distance = float(response)
-        return distance
+        return response

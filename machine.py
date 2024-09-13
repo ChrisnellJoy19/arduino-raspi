@@ -15,6 +15,8 @@ from utils import (
     dateutil
 )
 
+# ser = serial.Serial('COM9', 9600)
+
 log_base_format = '<green>{time}</green> | <level>{level}</level> | <cyan>{name}</cyan>:<cyan>{line}</cyan> | <level>{message}</level> {extra}\n'
 
 def format_extra(extra):
@@ -64,7 +66,7 @@ class Machine:
                     'turn_on_relay': 1,
                     'set_color_red': 2,
                     'set_color_green': 3,
-                    'get_distance': 4 
+                    'item_detection': 4 
                 }
             ),
         }
@@ -80,6 +82,7 @@ class Machine:
         """
         if(command in self.available_commands):
             self.logger.info(f'Sending command {command} to arduino')
+
             while True:
                 self.arduino.write(bytes(str(command)+'\n','utf-8'))
                 response = self.get_arduino_response()

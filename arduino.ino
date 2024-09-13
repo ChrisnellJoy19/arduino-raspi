@@ -1,8 +1,9 @@
-const int PIN_RED   = 9; 
-const int PIN_GREEN = 10;
-const int PIN_BLUE  = 11;
-const int trigPin = 7;
-const int echoPin = 8;
+const int PIN_RED   = 8;  // Red LED on pin 9
+const int PIN_GREEN = 9; // Green LED on pin 10
+const int PIN_BLUE  = 10; // Blue LED on Pin 11
+const int LED = 13; // Onboard LED pin
+const int irPin = 7;  // This is our input pin (IR LED at pin 7)
+int sensorOut = HIGH;  // HIGH at No Obstacle
 const int relayPin= A1;
 
 int currentCommand = -1;
@@ -18,8 +19,8 @@ void setup() {
   pinMode(PIN_RED,   OUTPUT);
   pinMode(PIN_GREEN, OUTPUT);
   pinMode(PIN_BLUE,  OUTPUT);
-  pinMode(trigPin, OUTPUT);  
-	pinMode(echoPin, INPUT);  
+  pinMode(LED, OUTPUT);
+  pinMode(irPin, INPUT);  
   pinMode(relayPin, OUTPUT);
 }
 
@@ -31,11 +32,13 @@ void loop() {
   // Compartment 1 Commands
   else if(currentCommand == 0) {
     turnOffRelay();
+    //unlock
     currentCommand = -1;
   }
 
   else if(currentCommand == 1) {
     turnOnRelay();
+    //lock
     currentCommand = -1;
   }
 
@@ -50,8 +53,8 @@ void loop() {
   }
 
   else if(currentCommand == 4) {
-    float distance = getDistance();
-    sendResponse(distance);
+    //item detected
+    detectItem();
     currentCommand = -1;
   }
 
@@ -92,13 +95,15 @@ void setColorGreen() {
   setColor(0, 255, 0);
 }
 
-float getDistance() {
-  digitalWrite(trigPin, LOW);  
-	delayMicroseconds(2);  
-	digitalWrite(trigPin, HIGH);  
-	delayMicroseconds(10);  
-	digitalWrite(trigPin, LOW);
-  long duration = pulseIn(echoPin, HIGH);
-  float distance = (duration*.0343)/2;
-  return distance;
+void detectItem() {
+  sensorOut = digitalRead(irPin);
+  if (sensorOut == LOW){
+    Serial.println("item detected");
+    digitalWrite(LED, HIGH);
+    }
+  else{
+    Serial.println("No item detected");
+    digitalWrite(LED, LOW);
+    }
+  delay(200);
 }

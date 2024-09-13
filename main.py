@@ -15,7 +15,7 @@ compartment1 = Compartment(
         'turn_on_relay': 1,
         'set_color_red': 2,
         'set_color_green': 3,
-        'get_distance': 4 
+        'item_detection': 4 
     }
 )
 
