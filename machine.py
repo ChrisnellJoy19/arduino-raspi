@@ -32,9 +32,9 @@ def log_format(record):
     return log_base_format.format(**record)
 
 class Machine:
-    def __init__(self, port: str = None) -> None: 
-        import compartment
+    def __init__(self, port: str = None) -> None:
 
+        import compartment
         self.logger = logger.bind()
         logger.remove()
         self.logger.add(
@@ -50,8 +50,11 @@ class Machine:
 
         self.logger.info('Intializing machine')
         self.available_commands = [0,1,2,3,4] 
-        self.arduino = serial.Serial(port, 9600, timeout = 1)
+        self.arduino = serial.Serial(port, 9600, timeout = 2) 
+        self.arduino.reset_input_buffer()
+        self.arduino.reset_output_buffer()
         self.logger.info(f'Arduino initialized', port=port)
+
 
         cred = credentials.Certificate('service.json') 
         firebase_admin.initialize_app(cred)
@@ -82,9 +85,10 @@ class Machine:
         """
         if(command in self.available_commands):
             self.logger.info(f'Sending command {command} to arduino')
-
+            self.arduino.write(f'{command}\n'.encode())
+            # self.arduino.write(bytes(str(command)+'\n','utf-8'))
             while True:
-                self.arduino.write(bytes(str(command)+'\n','utf-8'))
+                
                 response = self.get_arduino_response()
                 if(response == 'ok'):
                     break
