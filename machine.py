@@ -3,6 +3,7 @@ import json
 import random
 import serial
 import sys
+import time 
 
 from firebase_admin import credentials, firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
@@ -50,7 +51,7 @@ class Machine:
 
         self.logger.info('Intializing machine')
         self.available_commands = [0,1,2,3,4] 
-        self.arduino = serial.Serial(port, 9600, timeout = 2) 
+        self.arduino = serial.Serial(port, 9600, timeout = 9) 
         self.arduino.reset_input_buffer()
         self.arduino.reset_output_buffer()
         self.logger.info(f'Arduino initialized', port=port)
@@ -83,12 +84,11 @@ class Machine:
         Parameters:
         command (int) : Command to send
         """
+        self.logger.debug(f'Send Command to Arduino: {command}')
         if(command in self.available_commands):
-            self.logger.info(f'Sending command {command} to arduino')
-            self.arduino.write(f'{command}\n'.encode())
-            # self.arduino.write(bytes(str(command)+'\n','utf-8'))
             while True:
-                
+                self.arduino.write(bytes(str(command)+'\n','utf-8'))
+                time.sleep(0.5)
                 response = self.get_arduino_response()
                 if(response == 'ok'):
                     break
