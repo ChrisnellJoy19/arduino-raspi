@@ -1,27 +1,29 @@
-const int PIN_RED   = 8;  // Red LED on pin 9
-const int PIN_GREEN = 9; // Green LED on pin 10
-const int PIN_BLUE  = 10; // Blue LED on Pin 11
-const int LED = 13; // Onboard LED pin
-const int irPin = 7;  // This is our input pin (IR LED at pin 7)
-int sensorOut = HIGH;  // HIGH at No Obstacle
-const int relayPin= A1;
+const int redPin1   = 2; 
+const int greenPin1 = 3; 
+const int bluePin1  = 4; 
+const int irPin1 = 5;
+const int relayPin1 = 6;
+
+const int redPin2   = 7; 
+const int greenPin2 = 8; 
+const int bluePin2  = 9; 
+const int irPin2 = 10;
+const int relayPin2 = 11;
 
 int currentCommand = -1;
 
-void setColor(int R, int G, int B) {
-  analogWrite(PIN_RED,   R);
-  analogWrite(PIN_GREEN, G);
-  analogWrite(PIN_BLUE,  B);
-}
-
 void setup() {
   Serial.begin(9600);
-  pinMode(PIN_RED,   OUTPUT);
-  pinMode(PIN_GREEN, OUTPUT);
-  pinMode(PIN_BLUE,  OUTPUT);
-  pinMode(LED, OUTPUT);
-  pinMode(irPin, INPUT);  
-  pinMode(relayPin, OUTPUT);
+  pinMode(redPin1,   OUTPUT);
+  pinMode(greenPin1, OUTPUT);
+  pinMode(bluePin1,  OUTPUT);
+  pinMode(irPin1, INPUT);  
+  pinMode(relayPin1, OUTPUT);
+  pinMode(redPin2,   OUTPUT);
+  pinMode(greenPin2, OUTPUT);
+  pinMode(bluePin2,  OUTPUT);
+  pinMode(irPin2, INPUT);  
+  pinMode(relayPin2, OUTPUT);
 }
 
 void loop() {
@@ -31,34 +33,47 @@ void loop() {
 
   // Compartment 1 Commands
   else if(currentCommand == 0) {
-    turnOffRelay();
-    //unlock
+    digitalWrite(relayPin1, LOW);
     currentCommand = -1;
   }
-
   else if(currentCommand == 1) {
-    turnOnRelay();
-    //lock
+    digitalWrite(relayPin1, HIGH);
     currentCommand = -1;
   }
-
   else if(currentCommand == 2) {
-    setColorRed();
+    setColor1(255, 0, 0);
     currentCommand = -1;
   }
-
   else if(currentCommand == 3) {
-    setColorGreen();
+    setColor1(0, 255, 0);
     currentCommand = -1;
   }
-
   else if(currentCommand == 4) {
-    //item detected
-    detectItem();
+    detectItem1();
     currentCommand = -1;
   }
 
-  // Add other compartment commands
+  // Compartment 2 commands
+  else if(currentCommand == 5) {
+    digitalWrite(relayPin1, LOW);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 6) {
+    digitalWrite(relayPin1, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 7) {
+    setColor2(255, 0, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 8) {
+    setColor2(0, 255, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 9) {
+    detectItem2();
+    currentCommand = -1;
+  }
 }
 
 void receiveCommand() {
@@ -75,32 +90,34 @@ void sendResponse(String response) {
   Serial.println(response);    
 }
 
-void turnOffRelay() {
-  //unlock
-  digitalWrite(relayPin, LOW);
+void setColor1(int R, int G, int B) {
+  analogWrite(redPin1,   R);
+  analogWrite(greenPin1, G);
+  analogWrite(bluePin1,  B);
 }
 
-void turnOnRelay() {
-  //lock
-  digitalWrite(relayPin, HIGH);
+void setColor2(int R, int G, int B) {
+  analogWrite(redPin2,   R);
+  analogWrite(greenPin2, G);
+  analogWrite(bluePin2,  B);
 }
 
-void setColorRed() {
-  setColor(255, 0, 0);
-}
-
-void setColorGreen() {
-  setColor(0, 255, 0);
-}
-
-void detectItem() {
-  sensorOut = digitalRead(irPin);
+void detectItem1() {
+  int sensorOut = digitalRead(irPin1);
   if (sensorOut == LOW){
     Serial.println("1");
-    digitalWrite(LED, HIGH);
-    }
+  }
   else{
     Serial.println("0");
-    digitalWrite(LED, LOW);
-    }
+  }
+}
+
+void detectItem2() {
+  int sensorOut = digitalRead(irPin2);
+  if (sensorOut == LOW){
+    Serial.println("1");
+  }
+  else{
+    Serial.println("0");
+  }
 }

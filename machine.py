@@ -73,6 +73,16 @@ class Machine:
                     'item_detection': 4 
                 }
             ),
+            '2': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 5,
+                    'turn_on_relay': 6,
+                    'set_color_red': 7,
+                    'set_color_green': 8,
+                    'item_detection': 9 
+                }
+            ),
         }
         self.logger.info(f'Compartments initialized')
 
