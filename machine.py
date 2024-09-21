@@ -15,8 +15,7 @@ from utils import (
     TransactionStatus,
     dateutil
 )
-
-# ser = serial.Serial('COM9', 9600)
+from sim808 import Sim808
 
 log_base_format = '<green>{time}</green> | <level>{level}</level> | <cyan>{name}</cyan>:<cyan>{line}</cyan> | <level>{message}</level> {extra}\n'
 
@@ -33,9 +32,10 @@ def log_format(record):
     return log_base_format.format(**record)
 
 class Machine:
-    def __init__(self, port: str = None) -> None:
+    def __init__(self, port: str = None, gsm_port: str = None, debug: bool = False) -> None:
 
         import compartment
+        self.debug = debug
         self.logger = logger.bind()
         logger.remove()
         self.logger.add(
@@ -52,8 +52,9 @@ class Machine:
         self.logger.info('Intializing machine')
         self.available_commands = [0,1,2,3,4] 
         self.arduino = serial.Serial(port, 9600, timeout = 9) 
-        self.arduino.reset_input_buffer()
-        self.arduino.reset_output_buffer()
+        if port:
+            self.arduino.reset_input_buffer()
+            self.arduino.reset_output_buffer()
         self.logger.info(f'Arduino initialized', port=port)
 
 
@@ -61,6 +62,10 @@ class Machine:
         firebase_admin.initialize_app(cred)
         self.database = firestore.client()
         self.logger.info(f'Firestore initialized')
+
+        if not debug:
+            self.sim808 = Sim808(gsm_port)
+        self.logger.info(f'Sim808 initialized')
 
         self.compartments: dict[str, compartment.Compartment] = {
             '1': compartment.Compartment(
@@ -126,7 +131,10 @@ class Machine:
         :param to: Phone number to send to
         :param msg: Message body
         """
-        pass
+        if not self.debug:
+            self.sim808.send_sms(to, msg)
+        self.logger.info(f'Sent message to {to}')
+        self.logger.info(f'Message: {msg}')
 
     def _generate_otp(self) -> str:
         """
@@ -162,6 +170,22 @@ class Machine:
             return False
         
         return True
+
+    def get_compartment_status(self, compartment_id: str) -> str:
+        """
+        Get currnt status of given comparment ID
+
+        :param compartment_id: Compartment number (must be a key of `self.compartments`)
+        :return: Compartment status
+        """
+        compartment_document = self.database.collection('compartments').document(compartment_id)
+        compartment = compartment_document.get()
+        if not compartment.exists:
+            self.logger.warning(f'Compartment {compartment_id} does not exists')
+            raise Exception(f'Compartment {compartment_id} does not exists')
+        
+        compartment = Compartment(**compartment.to_dict())
+        return compartment.status
 
     def dropoff_item(self, compartment_id: str, details: dict) -> str:
         """
