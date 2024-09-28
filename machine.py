@@ -50,7 +50,7 @@ class Machine:
         )
 
         self.logger.info('Intializing machine')
-        self.available_commands = [0,1,2,3,4] 
+        self.available_commands = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14] 
         self.arduino = serial.Serial(port, 9600, timeout = 9) 
         if port:
             self.arduino.reset_input_buffer()
@@ -86,6 +86,16 @@ class Machine:
                     'set_color_red': 7,
                     'set_color_green': 8,
                     'item_detection': 9 
+                }
+            ),
+            '3': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 10,
+                    'turn_on_relay': 11,
+                    'set_color_red': 12,
+                    'set_color_green': 13,
+                    'item_detection': 14 
                 }
             ),
         }

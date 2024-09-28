@@ -10,6 +10,13 @@ const int bluePin2  = 9;
 const int irPin2 = 10;
 const int relayPin2 = 11;
 
+
+const int redPin3   = 12; 
+const int greenPin3 = 13; 
+const int bluePin3  = 14; 
+const int irPin3 = 15;
+const int relayPin3 = 16;
+
 int currentCommand = -1;
 
 void setup() {
@@ -24,6 +31,11 @@ void setup() {
   pinMode(bluePin2,  OUTPUT);
   pinMode(irPin2, INPUT);  
   pinMode(relayPin2, OUTPUT);
+  pinMode(redPin3,   OUTPUT);
+  pinMode(greenPin3, OUTPUT);
+  pinMode(bluePin3,  OUTPUT);
+  pinMode(irPin3, INPUT);  
+  pinMode(relayPin3, OUTPUT);
 }
 
 void loop() {
@@ -55,11 +67,11 @@ void loop() {
 
   // Compartment 2 commands
   else if(currentCommand == 5) {
-    digitalWrite(relayPin1, LOW);
+    digitalWrite(relayPin2, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 6) {
-    digitalWrite(relayPin1, HIGH);
+    digitalWrite(relayPin2, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 7) {
@@ -72,6 +84,28 @@ void loop() {
   }
   else if(currentCommand == 9) {
     detectItem2();
+    currentCommand = -1;
+  }
+
+  // Compartment 3 commands
+  else if(currentCommand == 10) {
+    digitalWrite(relayPin3, LOW);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 11) {
+    digitalWrite(relayPin3, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 12) {
+    setColor3(255, 0, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 13) {
+    setColor3(0, 255, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 14) {
+    detectItem3();
     currentCommand = -1;
   }
 }
@@ -102,6 +136,12 @@ void setColor2(int R, int G, int B) {
   analogWrite(bluePin2,  B);
 }
 
+void setColor3(int R, int G, int B) {
+  analogWrite(redPin3,   R);
+  analogWrite(greenPin3, G);
+  analogWrite(bluePin3,  B);
+}
+
 void detectItem1() {
   int sensorOut = digitalRead(irPin1);
   if (sensorOut == LOW){
@@ -113,6 +153,16 @@ void detectItem1() {
 }
 
 void detectItem2() {
+  int sensorOut = digitalRead(irPin2);
+  if (sensorOut == LOW){
+    Serial.println("1");
+  }
+  else{
+    Serial.println("0");
+  }
+}
+
+void detectItem3() {
   int sensorOut = digitalRead(irPin2);
   if (sensorOut == LOW){
     Serial.println("1");
