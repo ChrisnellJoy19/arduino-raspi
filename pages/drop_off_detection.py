@@ -40,10 +40,10 @@ class ProceedDropOff(tk.Canvas):
         self.tag_bind(self.proceed_drop_off_image, "<Button-1>", self.on_click)
         
     def on_click(self, event=None):
-        compartment = self.root.memory['dropoff']['compartment']
-        if not self.root.debug:
-            self.root.machine.compartments[str(compartment)].turn_on_relay()
-        print("Compartment relay turned on")
+        # compartment = self.root.memory['dropoff']['compartment']
+        # if not self.root.debug:
+        #     self.root.machine.compartments[str(compartment)].turn_on_relay()
+        # print("Compartment relay turned on")
 
         if self.root.debug:
             print("Item Detected!")

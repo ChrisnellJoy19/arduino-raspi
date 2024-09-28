@@ -4,7 +4,6 @@ from pages.welcome import WelcomePage
 from pages.menu import MenuPage
 from pages.verification_code import VerificationCode
 from pages.retrieve_general_category import RetrieveGeneralCategoryForm
-from pages.other_category import OtherCategoryForm
 from pages.retrieval_compartment import RetrievalCompartmentForm
 from pages.confirm_retrieval import ConfirmRetrieval
 from pages.drop_off_input_details import DropOffForm
@@ -93,12 +92,6 @@ class Root(tk.Tk):
             child.destroy()
         homepage = RetrieveGeneralCategoryForm(self)
         homepage.pack() 
-
-    def show_other_category_page(self):
-        for child in self.winfo_children():
-            child.destroy()
-        homepage = OtherCategoryForm(self)
-        homepage.pack()
         
     def show_retrieval_compartment_page(self):
         for child in self.winfo_children():
@@ -142,6 +135,7 @@ class Root(tk.Tk):
         homepage = DropOffFinished(self)
         homepage.pack()
 
+
 if __name__ == '__main__':
-    machine = machine = Machine(port=None, debug=False)
-    root = Root(machine=machine, debug=False)
+    machine = machine = Machine(port=None, debug=True)
+    root = Root(machine=machine, debug=True)

@@ -63,9 +63,9 @@ class Machine:
         self.database = firestore.client()
         self.logger.info(f'Firestore initialized')
 
-        if not debug:
-            self.sim808 = Sim808(gsm_port)
-        self.logger.info(f'Sim808 initialized')
+        # if not debug:
+        #     self.sim808 = Sim808(gsm_port)
+        # self.logger.info(f'Sim808 initialized')
 
         self.compartments: dict[str, compartment.Compartment] = {
             '1': compartment.Compartment(

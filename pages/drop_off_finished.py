@@ -49,10 +49,11 @@ class DropOffFinished(tk.Canvas):
             self.root.machine.compartments[str(compartment)].turn_off_relay()
         print("Compartment relay turned off")
 
+
         otp = self.root.machine.dropoff_item(str(compartment), self.root.memory['dropoff'])
         msg = f'Hello {receiver}, you have a new item from {sender} located on compartment {compartment}. Your OTP is {otp}. For more details you can contact the sender on {sender_contact}'
         self.root.machine.send_message(receiver_contact, msg)
-        self.root.machine.reset_memory()
+        #self.root.machine.reset_memory()
         messagebox.showinfo("Thank you!", "Code will be sent to the receiver.")
 
         # Show the next page
