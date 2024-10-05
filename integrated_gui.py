@@ -137,5 +137,5 @@ class Root(tk.Tk):
 
 
 if __name__ == '__main__':
-    machine = machine = Machine(port=None, gsm_port='/dev/ttyUSB0', debug=True)
+    machine = machine = Machine(port=None, gsm_port=None, debug=True)
     root = Root(machine=machine, debug=True)
