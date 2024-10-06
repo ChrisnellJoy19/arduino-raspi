@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 
-class FoundDropoffForm(tk.Canvas):
+class LostRetrieveForm(tk.Canvas):
     def __init__(self, root, **kwargs):
         super().__init__(root, width=800, height=480, bg='#f0f0f0', highlightthickness=0, **kwargs)
         self.root = root
@@ -13,9 +13,9 @@ class FoundDropoffForm(tk.Canvas):
         title_frame = tk.Frame(self, bg='#333', width=800, height=60)
         title_frame.place(x=0, y=0)
 
-        title_label = tk.Label(title_frame, text="DROP-OFF", font=("Georgia", 24, 'bold'), fg='white', bg='#333')
+        title_label = tk.Label(title_frame, text="RETRIEVE", font=("Georgia", 24, 'bold'), fg='white', bg='#333')
         title_label.place(x=350, y=15)
-        title_icon = tk.Label(title_frame, image=self.root.dropoff_icon, bg='#333')
+        title_icon = tk.Label(title_frame, image=self.root.retrieve_icon, bg='#333')
         title_icon.place(x=250, y=10)
 
         form_frame = tk.Frame(self, bg='white', width=600, height=380, highlightbackground='gray', highlightthickness=1)
@@ -151,7 +151,7 @@ class FoundDropoffForm(tk.Canvas):
             messagebox.showerror("Error", "Please select a detail")
             return
         
-        messagebox.showinfo("Success", "Drop-off information recorded successfully!")
+        messagebox.showinfo("Success", "Your item will be retrieved!")
         print(f"Category: {self.selected_category.get()}, Subcategory: {self.selected_subcategory.get()}, Detail: {self.selected_detail.get()}")
 
-        self.root.show_drop_off_compartment_page()
+        self.root.show_retrieval_compartment_page()

@@ -15,9 +15,9 @@ class LostFoundForm(tk.Canvas):
         title_frame.place(x=0, y=0)
 
         # Title text and icon
-        title_label = tk.Label(title_frame, text="DROP-OFF", font=("Georgia", 24, 'bold'), fg='white', bg='#333')
-        title_label.place(x=350, y=15)
-        title_icon = tk.Label(title_frame, image=self.root.dropoff_icon, bg='#333')
+        title_label = tk.Label(title_frame, text="UNILOCK", font=("Georgia", 24, 'bold'), fg='white', bg='#333')
+        title_label.place(x=320, y=10)
+        title_icon = tk.Label(title_frame, image=self.root.lost_found_icon, bg='#333')
         title_icon.place(x=250, y=10)
 
         # Form frame
@@ -25,7 +25,7 @@ class LostFoundForm(tk.Canvas):
         form_frame.place(x=100, y=80)
 
         # Form title
-        form_title_label = tk.Label(form_frame, text='Drop-Off Form', font=('Cambria', 18, 'bold'), fg='#333', bg = '#FFFFFF')
+        form_title_label = tk.Label(form_frame, text='LOST & FOUND', font=('Cambria', 18, 'bold'), fg='#333', bg = '#FFFFFF')
         form_title_label.place(x=205, y=20)
 
         # Name label and entry

@@ -43,7 +43,7 @@ class LostFoundMenuPage(tk.Frame):
         self.root.show_lostfound_dropoff_categories_page()
     def retrieve_action(self):
         print("Retrieve button clicked")
-        self.root.show_lostfound_dropoff_categories_page()
+        self.root.show_lostfound_retrieve_categories_page()
     
 
 

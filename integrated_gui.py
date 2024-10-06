@@ -14,6 +14,7 @@ from pages.drop_off_finished import DropOffFinished
 from pages.lostfound_menu import LostFoundMenuPage
 from pages.lostfound_input_details import LostFoundForm
 from pages.lostfound_dropoff_categories import FoundDropoffForm
+from pages.lostfound_retrieve_categories import LostRetrieveForm
 
 from machine import Machine
 
@@ -153,6 +154,12 @@ class Root(tk.Tk):
         for child in self.winfo_children():
             child.destroy()
         homepage = FoundDropoffForm(self)
+        homepage.pack()
+
+    def show_lostfound_retrieve_categories_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostRetrieveForm(self)
         homepage.pack()
 
 if __name__ == '__main__':
