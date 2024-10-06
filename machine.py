@@ -207,6 +207,8 @@ class Machine:
         """
         compartment_document = self.database.collection('compartments').document(compartment_id)
         transaction_collection = self.database.collection('transactions')
+        #transaction_collection = self.database.orderBy("", "asc")
+
         datetime_now = dateutil.get_datetime_gmt()
 
         compartment = compartment_document.get()

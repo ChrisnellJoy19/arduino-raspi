@@ -4,7 +4,6 @@ from pages.welcome import WelcomePage
 from pages.menu import MenuPage
 from pages.verification_code import VerificationCode
 from pages.retrieve_general_category import RetrieveGeneralCategoryForm
-from pages.other_category import OtherCategoryForm
 from pages.retrieval_compartment import RetrievalCompartmentForm
 from pages.confirm_retrieval import ConfirmRetrieval
 from pages.drop_off_input_details import DropOffForm
@@ -12,6 +11,10 @@ from pages.drop_off_general_category import DropoffGeneralCategoryForm
 from pages.drop_off_compartment import DropOffCompartmentForm
 from pages.drop_off_detection import ProceedDropOff
 from pages.drop_off_finished import DropOffFinished
+from pages.lostfound_menu import LostFoundMenuPage
+from pages.lostfound_input_details import LostFoundForm
+from pages.lostfound_dropoff_categories import FoundDropoffForm
+
 
 class Root(tk.Tk):
 
@@ -68,12 +71,6 @@ class Root(tk.Tk):
             child.destroy()
         homepage = RetrieveGeneralCategoryForm(self)
         homepage.pack() 
-
-    def show_other_category_page(self):
-        for child in self.winfo_children():
-            child.destroy()
-        homepage = OtherCategoryForm(self)
-        homepage.pack()
         
     def show_retrieval_compartment_page(self):
         for child in self.winfo_children():
@@ -115,6 +112,22 @@ class Root(tk.Tk):
         for child in self.winfo_children():
             child.destroy()
         homepage = DropOffFinished(self)
+        homepage.pack()
+
+    def show_lostfound_menu_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundMenuPage(self)
+        homepage.pack()
+    def show_lostfound_input_details_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundForm(self)
+        homepage.pack()
+    def show_lostfound_dropoff_categories_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = FoundDropoffForm(self)
         homepage.pack()
 
 if __name__ == '__main__':

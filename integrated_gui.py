@@ -11,6 +11,9 @@ from pages.drop_off_general_category import DropoffGeneralCategoryForm
 from pages.drop_off_compartment import DropOffCompartmentForm
 from pages.drop_off_detection import ProceedDropOff
 from pages.drop_off_finished import DropOffFinished
+from pages.lostfound_menu import LostFoundMenuPage
+from pages.lostfound_input_details import LostFoundForm
+from pages.lostfound_dropoff_categories import FoundDropoffForm
 
 from machine import Machine
 
@@ -135,6 +138,22 @@ class Root(tk.Tk):
         homepage = DropOffFinished(self)
         homepage.pack()
 
+    def show_lostfound_menu_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundMenuPage(self)
+        homepage.pack()
+    def show_lostfound_input_details_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundForm(self)
+        homepage.pack()
+
+    def show_lostfound_dropoff_categories_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = FoundDropoffForm(self)
+        homepage.pack()
 
 if __name__ == '__main__':
     machine = machine = Machine(port=None, debug=True)

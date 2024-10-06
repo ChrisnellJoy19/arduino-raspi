@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-class DropOffForm(tk.Canvas):
+class LostFoundForm(tk.Canvas):
     def __init__(self, root, **kwargs):
         super().__init__(root, width=800, height=480, bg='#f0f0f0', highlightthickness=0, **kwargs)
         self.root = root
@@ -40,26 +40,13 @@ class DropOffForm(tk.Canvas):
         self.contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.contact_entry.place(x=70, y=150)
 
-        # Receiver's name label and entry
-        receiver_label = tk.Label(form_frame, text='Enter receiver\'s name:', font=('Cambria', 14), fg='#333',  bg = '#FFFFFF')
-
-        receiver_label.place(x=50, y=180)
-        self.receiver_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
-        self.receiver_entry.place(x=70, y=210)
-
-        # Receiver's contact number label and entry
-        receiver_contact_label = tk.Label(form_frame, text='Receiver\'s contact no.:', font=('Cambria', 14), fg='#333', bg = '#FFFFFF')
-        receiver_contact_label.place(x=50, y=240)
-        self.receiver_contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
-        self.receiver_contact_entry.place(x=70, y=270)
-
         # Button frame
         button_frame = tk.Frame(form_frame, bg='white')
-        button_frame.place(x=30, y=310)
+        button_frame.place(x=30, y=220)
 
         # Back button
         def on_back():
-            self.root.show_menu_page()  # Go back to the menu page
+            self.root.show_menu_page()  
 
         back_button = tk.Button(button_frame, text='Back', bg='white', fg='#333', font=('Cambria', 12), command=on_back, highlightbackground='gray', highlightthickness=1)
         back_button.pack(side=tk.LEFT, padx=120)
@@ -71,15 +58,13 @@ class DropOffForm(tk.Canvas):
     def validate_inputs(self):
         name = self.name_entry.get()
         contact = self.contact_entry.get()
-        receiver = self.receiver_entry.get()
-        receiver_contact = self.receiver_contact_entry.get()
 
-        if not name or not contact or not receiver or not receiver_contact:
+        if not name or not contact:
             messagebox.showerror("Error", "Please fill in all fields")
-        else:
-            self.root.memory['dropoff']['sender'] = name
-            self.root.memory['dropoff']['sender_contact'] = contact
-            self.root.memory['dropoff']['receiver'] = receiver
-            self.root.memory['dropoff']['receiver_contact'] = receiver_contact
-            self.root.show_drop_off_general_category_page()
-
+            return 
+        elif not contact.isdigit():
+            messagebox.showerror("Error", "Contact number must be digits only")
+            return 
+        
+        # Only proceed to the next page if validation passes
+        self.root.show_lostfound_menu_page()
