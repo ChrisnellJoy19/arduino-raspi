@@ -63,9 +63,9 @@ class Machine:
         self.database = firestore.client()
         self.logger.info(f'Firestore initialized')
 
-        # if not debug:
-        #     self.sim808 = Sim808(gsm_port)
-        # self.logger.info(f'Sim808 initialized')
+        if not debug:
+            self.sim808 = Sim808(gsm_port)
+        self.logger.info(f'Sim808 initialized')
 
         self.compartments: dict[str, compartment.Compartment] = {
             '1': compartment.Compartment(
@@ -96,6 +96,66 @@ class Machine:
                     'set_color_red': 12,
                     'set_color_green': 13,
                     'item_detection': 14 
+                }
+            ),
+            '4': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 15,
+                    'turn_on_relay': 16,
+                    'set_color_red': 17,
+                    'set_color_green': 18,
+                    'item_detection': 19 
+                }
+            ),
+            '5': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 20,
+                    'turn_on_relay': 21,
+                    'set_color_red': 22,
+                    'set_color_green': 23,
+                    'item_detection': 24 
+                }
+            ),
+            '6': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 25,
+                    'turn_on_relay': 26,
+                    'set_color_red': 27,
+                    'set_color_green': 28,
+                    'item_detection': 29 
+                }
+            ),
+            '7': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 30,
+                    'turn_on_relay': 31,
+                    'set_color_red': 32,
+                    'set_color_green': 33,
+                    'item_detection': 34 
+                }
+            ),
+            '8': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 35,
+                    'turn_on_relay': 36,
+                    'set_color_red': 37,
+                    'set_color_green': 38,
+                    'item_detection': 39 
+                }
+            ),
+            '9': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 40,
+                    'turn_on_relay': 41,
+                    'set_color_red': 42,
+                    'set_color_green': 43,
+                    'item_detection': 44 
                 }
             ),
         }

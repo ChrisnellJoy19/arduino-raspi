@@ -27,6 +27,8 @@ class Sim808:
         '''
         self.send_command('AT\r\n')
         response = self.read_response()
+        time.sleep(5)
+        print(response)
         if('OK' not in response):
             raise Exception('Error starting sim808')
         self.send_command('AT+CMGF=1\r\n')

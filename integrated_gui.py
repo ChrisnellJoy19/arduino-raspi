@@ -156,5 +156,5 @@ class Root(tk.Tk):
         homepage.pack()
 
 if __name__ == '__main__':
-    machine = machine = Machine(port=None, debug=True)
+    machine = machine = Machine(port=None, gsm_port=None, debug=True)
     root = Root(machine=machine, debug=True)
