@@ -44,9 +44,11 @@ class MenuPage(tk.Frame):
         # Replace with the actual method that shows the drop off page
         print("Drop Off button clicked")
         self.root.show_drop_off_input_details_page()
+
     def retrieve_action(self):
         print("Retrieve button clicked")
         self.root.show_verification_code_page()
+
     def lost_found_action(self):
         # Replace with the actual method that shows the lost and found page
         print("Lost and Found button clicked")

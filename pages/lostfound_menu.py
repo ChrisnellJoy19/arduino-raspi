@@ -41,6 +41,7 @@ class LostFoundMenuPage(tk.Frame):
         # Replace with the actual method that shows the drop off page
         print("Drop Off button clicked")
         self.root.show_lostfound_dropoff_categories_page()
+
     def retrieve_action(self):
         print("Retrieve button clicked")
         self.root.show_lostfound_retrieve_categories_page()

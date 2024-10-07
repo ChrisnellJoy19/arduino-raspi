@@ -296,6 +296,7 @@ class Machine:
         otp = self._generate_otp()
         transaction = Transaction(
             compartment_id=compartment.id, 
+            transaction_type="regular",
             status=TransactionStatus.pending, 
             otp=otp,
             dropoff_at=datetime_now,
@@ -310,7 +311,6 @@ class Machine:
         self.logger.info(f'Compartment updated with id: {compartment_id}')
 
         # Send message notification to sender and receiver contact
-
         return otp
     
     def release_item(self, compartment_id: str, otp: str) -> bool:
@@ -350,6 +350,10 @@ class Machine:
         pending_transaction = pending_transaction[0]
         transaction = Transaction(**pending_transaction.to_dict())
 
+        if transaction.transaction_type != 'regular':
+            self.logger.warning(f'Transaction is not for regular')
+            raise Exception(f'Transaction is not for regular')
+
         if otp != transaction.otp:
             self.logger.warning('OTP does not match')
             raise Exception('OTP does not match')
@@ -365,3 +369,116 @@ class Machine:
         self.logger.info(f'Compartment updated with id: {compartment_id}')
 
         return True
+    
+    def dropoff_lost_item(self, compartment_id: str, details: dict) -> str:
+        """
+        Emulate a drop-off lost item operation on specific compartment
+
+        :param compartment_id: Compartment number (must be a key of `self.compartments`)
+        :param details: Drop-off detail, see `utils.Transaction` for details
+        """
+        compartment_document = self.database.collection('compartments').document(compartment_id)
+        transaction_collection = self.database.collection('transactions')
+        #transaction_collection = self.database.orderBy("", "asc")
+
+        datetime_now = dateutil.get_datetime_gmt()
+
+        compartment = compartment_document.get()
+        if not compartment.exists:
+            self.logger.warning(f'Compartment {compartment_id} does not exists')
+            raise Exception(f'Compartment {compartment_id} does not exists')
+        
+        # Get compartment status
+        compartment = Compartment(**compartment.to_dict())
+        if compartment.status != CompartmentStatus.available:
+            self.logger.warning(f'Compartment {compartment_id} is not available', status=compartment.status)
+            raise Exception(f'Compartment {compartment_id} is not available')
+        
+        # Get pending transaction
+        pending_transaction = transaction_collection \
+            .where(filter=FieldFilter('compartment_id', '==', compartment_id)) \
+            .where(filter=FieldFilter('status', '==', TransactionStatus.pending)) \
+            .limit(1) \
+            .get()
+        
+        if pending_transaction:
+            self.logger.warning(f'Compartment {compartment_id} has pending transaction')
+            raise Exception(f'Compartment {compartment_id} has pending transaction')
+        
+        transaction = Transaction(
+            compartment_id=compartment.id, 
+            transaction_type="lost_and_found",
+            status=TransactionStatus.pending, 
+            dropoff_at=datetime_now,
+            **details
+        )
+        _, transaction_ref = transaction_collection.add(transaction.model_dump())
+        self.logger.info(f'Transaction added with id: {transaction_ref.id}')
+
+        compartment.status = CompartmentStatus.unavailable
+        compartment.updated_at = datetime_now
+        compartment_document.set(compartment.model_dump(), merge=True)
+        self.logger.info(f'Compartment updated with id: {compartment_id}')
+
+    def retrieve_found_item(self, compartment_id: str, details: dict) -> bool:
+        """
+        Emulate a release-off operation on specific compartment
+
+        :param compartment_id: Compartment number (must be a key of `self.compartments`)
+        :param details: Item details, required keys (item_category, item_subcategory, item_detail, receiver, receiver_contact)
+        """
+        compartment_document = self.database.collection('compartments').document(compartment_id)
+        transaction_collection = self.database.collection('transactions')
+        datetime_now = dateutil.get_datetime_gmt()
+
+        compartment = compartment_document.get()
+        if not compartment.exists:
+            self.logger.warning(f'Compartment {compartment_id} does not exists')
+            raise Exception(f'Compartment {compartment_id} does not exists')
+        
+        # Get compartment status
+        compartment = Compartment(**compartment.to_dict())
+        if compartment.status != CompartmentStatus.unavailable:
+            self.logger.warning(f'Compartment {compartment_id} is not unavailable', status=compartment.status)
+            raise Exception(f'Compartment {compartment_id} is not unavailable')
+
+        # Get pending transaction
+        pending_transaction = transaction_collection \
+            .where(filter=FieldFilter('compartment_id', '==', compartment_id)) \
+            .where(filter=FieldFilter('status', '==', TransactionStatus.pending)) \
+            .limit(1) \
+            .get()
+        
+        if not pending_transaction:
+            self.logger.warning(f'Compartment {compartment_id} has no pending transaction')
+            raise Exception(f'Compartment {compartment_id} has no pending transaction')
+        
+        pending_transaction = pending_transaction[0]
+        transaction = Transaction(**pending_transaction.to_dict())
+
+        if transaction.transaction_type != "lost_and_found":
+            self.logger.warning(f'Transaction is not for lost and found')
+            raise Exception(f'Transaction is not for lost and found')
+        
+        required_keys = ['item_category', 'item_subcategory', 'item_detail', 'receiver', 'receiver_contact']
+        for key in required_keys:
+            if key not in details.keys():
+                raise Exception(f'Key {key} is required')
+
+        if details.get('item_category') != transaction.item_category \
+            or details.get('item_subcategory') != transaction.item_subcategory \
+            or details.get('item_detail') != transaction.item_detail:
+            self.logger.warning(f'Transaction details for lost and found does not match')
+            raise Exception(f'Transaction details for lost and found does not match')
+
+        transaction.receiver = details.get('receiver')
+        transaction.receiver_contact = details.get('receiver_contact')
+        transaction.received_at = datetime_now
+        transaction.status = TransactionStatus.completed
+        transaction_collection.document(pending_transaction.id).set(transaction.model_dump())
+        self.logger.info(f'Transaction updated with id: {pending_transaction.id}')
+
+        compartment.status = CompartmentStatus.available
+        compartment.updated_at = datetime_now
+        compartment_document.set(compartment.model_dump(), merge=True)
+        self.logger.info(f'Compartment updated with id: {compartment_id}')

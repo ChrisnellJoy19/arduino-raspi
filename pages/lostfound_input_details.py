@@ -66,5 +66,8 @@ class LostFoundForm(tk.Canvas):
             messagebox.showerror("Error", "Contact number must be digits only")
             return 
         
+        self.root.memory['lost_and_found']['name'] = name
+        self.root.memory['lost_and_found']['contact'] = contact
+
         # Only proceed to the next page if validation passes
         self.root.show_lostfound_menu_page()

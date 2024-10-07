@@ -97,6 +97,7 @@ class LostFoundRetrievalCompartment(tk.Canvas):
             proceed = messagebox.askyesno(f"Compartment no. {item_index}",
                                         f"Do you want to retrieve from Compartment no. {item_index}?")
             
+            compartment = item_index
 
             if proceed:
           
@@ -104,7 +105,10 @@ class LostFoundRetrievalCompartment(tk.Canvas):
                     self.root.machine.compartments[str(compartment)].turn_on_relay()
                 print("Compartment relay turned on")
 
-                # self.root.machine.release_item(str(compartment))
+                self.root.memory['lost_and_found_retrieve']['receiver'] = self.root.memory['lost_and_found']['name']
+                self.root.memory['lost_and_found_retrieve']['receiver_contact'] = self.root.memory['lost_and_found']['contact']
+
+                self.root.machine.retrieve_found_item(str(compartment), self.root.memory['lost_and_found_retrieve'])
                 message = f"You unlocked Compartment no. {item_index}"
                 messagebox.showinfo(f"Compartment no. {item_index}", message)
                 self.root.show_lostfound_confirm_retrieval_page() 
