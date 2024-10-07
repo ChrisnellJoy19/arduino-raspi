@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-class ProceedDropOff(tk.Canvas):
+class LostFoundDropOffDetection(tk.Canvas):
     def __init__(self, root, **kwargs):
         super().__init__(root, width=800, height=480, bg='gray', highlightthickness=0, **kwargs)
         self.root = root
@@ -57,6 +57,6 @@ class ProceedDropOff(tk.Canvas):
         messagebox.showinfo("Thank you!", "Detected.")
         
         # Show the next page
-        self.root.show_drop_off_finished_page()
+        self.root.show_lostfound_dropoff_finished_page()
 
   

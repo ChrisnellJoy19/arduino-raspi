@@ -364,6 +364,4 @@ class Machine:
         compartment_document.set(compartment.model_dump(), merge=True)
         self.logger.info(f'Compartment updated with id: {compartment_id}')
 
-        # Send message notification to sender and receiver contact
-
         return True

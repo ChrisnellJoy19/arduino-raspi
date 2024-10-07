@@ -154,4 +154,4 @@ class FoundDropoffForm(tk.Canvas):
         messagebox.showinfo("Success", "Drop-off information recorded successfully!")
         print(f"Category: {self.selected_category.get()}, Subcategory: {self.selected_subcategory.get()}, Detail: {self.selected_detail.get()}")
 
-        self.root.show_drop_off_compartment_page()
+        self.root.show_lostfound_dropoff_compartment_page()

@@ -154,4 +154,4 @@ class LostRetrieveForm(tk.Canvas):
         messagebox.showinfo("Success", "Your item will be retrieved!")
         print(f"Category: {self.selected_category.get()}, Subcategory: {self.selected_subcategory.get()}, Detail: {self.selected_detail.get()}")
 
-        self.root.show_retrieval_compartment_page()
+        self.root.show_lostfound_retrieval_compartment_page()

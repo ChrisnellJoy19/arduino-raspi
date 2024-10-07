@@ -15,6 +15,11 @@ from pages.lostfound_menu import LostFoundMenuPage
 from pages.lostfound_input_details import LostFoundForm
 from pages.lostfound_dropoff_categories import FoundDropoffForm
 from pages.lostfound_retrieve_categories import LostRetrieveForm
+from pages.lostfound_dropoff_compartment import LostFoundDropOffCompartment
+from pages.lostfound_dropoff_detection import LostFoundDropOffDetection
+from pages.lostfound_dropoff_finished import LostFoundDropOffFinished
+from pages.lostfound_retrieval_compartment import LostFoundRetrievalCompartment
+from pages.lostfound_confirm_retrieval import LostFoundConfirmRetrieval
 
 from machine import Machine
 
@@ -155,12 +160,40 @@ class Root(tk.Tk):
             child.destroy()
         homepage = FoundDropoffForm(self)
         homepage.pack()
-
     def show_lostfound_retrieve_categories_page(self):
         for child in self.winfo_children():
             child.destroy()
         homepage = LostRetrieveForm(self)
         homepage.pack()
+    def show_lostfound_dropoff_compartment_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundDropOffCompartment(self)
+        homepage.pack()
+
+    def show_lostfound_dropoff_detection_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundDropOffDetection(self)
+        homepage.pack()
+    
+    def show_lostfound_dropoff_finished_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundDropOffFinished(self)
+        homepage.pack()
+
+    def show_lostfound_retrieval_compartment_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundRetrievalCompartment(self)
+        homepage.pack()
+    def show_lostfound_confirm_retrieval_page(self):
+        for child in self.winfo_children():
+            child.destroy()
+        homepage = LostFoundConfirmRetrieval(self)
+        homepage.pack()
+
 
 if __name__ == '__main__':
     machine = machine = Machine(port=None, gsm_port=None, debug=True)
