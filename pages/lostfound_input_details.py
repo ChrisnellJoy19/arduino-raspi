@@ -37,8 +37,13 @@ class LostFoundForm(tk.Canvas):
         # Contact number label and entry
         contact_label = tk.Label(form_frame, text='Contact No.:', font=('Cambria', 14), fg='#333', bg = '#FFFFFF')
         contact_label.place(x=50, y=120)
+
         self.contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.contact_entry.place(x=70, y=150)
+        self.contact_entry.insert(0, '+639')  # Automatically insert +639
+
+        # Bind event to restrict editing of +639
+        self.contact_entry.bind("<KeyRelease>", self.validate_prefix)
 
         # Button frame
         button_frame = tk.Frame(form_frame, bg='white')
@@ -55,16 +60,25 @@ class LostFoundForm(tk.Canvas):
         next_button = tk.Button(button_frame, text='Next', bg='white', fg='#333', font=('Cambria', 12), command=self.validate_inputs, highlightbackground='gray', highlightthickness=1)
         next_button.pack(side=tk.LEFT, padx=75)
 
+    def validate_prefix(self, event):
+        """Ensure the contact number always starts with +639 and restrict modification."""
+        contact_text = self.contact_entry.get()
+
+        
+        if not contact_text.startswith('+639'):
+            self.contact_entry.delete(0, tk.END)
+            self.contact_entry.insert(0, '+639')
+
     def validate_inputs(self):
         name = self.name_entry.get()
         contact = self.contact_entry.get()
 
         if not name or not contact:
             messagebox.showerror("Error", "Please fill in all fields")
-            return 
-        elif not contact.isdigit():
-            messagebox.showerror("Error", "Contact number must be digits only")
-            return 
+            return
+        elif len(contact) <= 4 or not contact[4:].isdigit():  # Ensure digits follow +639
+            messagebox.showerror("Error", "Contact number must be digits only and follow +639")
+            return
         
         self.root.memory['lost_and_found']['name'] = name
         self.root.memory['lost_and_found']['contact'] = contact

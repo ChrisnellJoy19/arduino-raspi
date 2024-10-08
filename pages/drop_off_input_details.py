@@ -39,10 +39,11 @@ class DropOffForm(tk.Canvas):
         contact_label.place(x=50, y=120)
         self.contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.contact_entry.place(x=70, y=150)
+        self.contact_entry.insert(0, '+639')  # Automatically insert +639
+        self.contact_entry.bind("<KeyRelease>", self.validate_prefix)  # Ensure +639 is not modified
 
         # Receiver's name label and entry
         receiver_label = tk.Label(form_frame, text='Enter receiver\'s name:', font=('Cambria', 14), fg='#333',  bg = '#FFFFFF')
-
         receiver_label.place(x=50, y=180)
         self.receiver_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.receiver_entry.place(x=70, y=210)
@@ -52,6 +53,8 @@ class DropOffForm(tk.Canvas):
         receiver_contact_label.place(x=50, y=240)
         self.receiver_contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.receiver_contact_entry.place(x=70, y=270)
+        self.receiver_contact_entry.insert(0, '+639')  # Automatically insert +639
+        self.receiver_contact_entry.bind("<KeyRelease>", self.validate_prefix)  # Ensure +639 is not modified
 
         # Button frame
         button_frame = tk.Frame(form_frame, bg='white')
@@ -68,6 +71,15 @@ class DropOffForm(tk.Canvas):
         next_button = tk.Button(button_frame, text='Next', bg='white', fg='#333', font=('Cambria', 12), command=self.validate_inputs, highlightbackground='gray', highlightthickness=1)
         next_button.pack(side=tk.LEFT, padx=75)
 
+    def validate_prefix(self, event):
+        """Ensure the contact number always starts with +639 and restrict modification."""
+        contact_text = event.widget.get()
+
+        # If the user tries to modify or delete +639, reset it
+        if not contact_text.startswith('+639'):
+            event.widget.delete(0, tk.END)
+            event.widget.insert(0, '+639')
+
     def validate_inputs(self):
         name = self.name_entry.get()
         contact = self.contact_entry.get()
@@ -76,10 +88,11 @@ class DropOffForm(tk.Canvas):
 
         if not name or not contact or not receiver or not receiver_contact:
             messagebox.showerror("Error", "Please fill in all fields")
+        elif len(contact) <= 4 or not contact[4:].isdigit() or len(receiver_contact) <= 4 or not receiver_contact[4:].isdigit():
+            messagebox.showerror("Error", "Contact numbers must be digits only and follow +639")
         else:
             self.root.memory['dropoff']['sender'] = name
             self.root.memory['dropoff']['sender_contact'] = contact
             self.root.memory['dropoff']['receiver'] = receiver
             self.root.memory['dropoff']['receiver_contact'] = receiver_contact
             self.root.show_drop_off_general_category_page()
-
