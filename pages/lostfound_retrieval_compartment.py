@@ -108,7 +108,12 @@ class LostFoundRetrievalCompartment(tk.Canvas):
                 self.root.memory['lost_and_found_retrieve']['receiver'] = self.root.memory['lost_and_found']['name']
                 self.root.memory['lost_and_found_retrieve']['receiver_contact'] = self.root.memory['lost_and_found']['contact']
 
-                self.root.machine.retrieve_found_item(str(compartment), self.root.memory['lost_and_found_retrieve'])
+                try:
+                    self.root.machine.retrieve_found_item(str(compartment), self.root.memory['lost_and_found_retrieve'])
+                except Exception as e:
+                    messagebox.showerror("Error retrieving item", str(e))
+                    return
+
                 message = f"You unlocked Compartment no. {item_index}"
                 messagebox.showinfo(f"Compartment no. {item_index}", message)
                 self.root.show_lostfound_confirm_retrieval_page() 
