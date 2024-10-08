@@ -21,14 +21,17 @@ class Compartment(BaseModel):
 
 class Transaction(BaseModel):
     compartment_id: str
+    transaction_type: str
     sender: str
     sender_contact: str
-    receiver: str
-    receiver_contact: str
+    receiver: Optional[str] = ''
+    receiver_contact: Optional[str] = ''
     item: str
     item_category: str
+    item_subcategory: Optional[str] = ''
+    item_detail: Optional[str] = ''
     status: TransactionStatus
-    otp: str
+    otp: Optional[str] = ''
     dropoff_at: datetime
     received_at: Optional[datetime] = None
 

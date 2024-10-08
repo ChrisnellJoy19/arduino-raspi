@@ -68,7 +68,29 @@ class Root(tk.Tk):
             'retrieve': {
                 'compartment': '',
                 'otp': ''
-            }
+            },
+            'lost_and_found': {
+                'name': '',
+                'contact': '',
+            },
+            'lost_and_found_dropoff': {
+                'compartment': '',
+                'sender': '',
+                'sender_contact': '',
+                'item': 'Placeholder',
+                'item_category': '',
+                'item_subcategory': '',
+                'item_detail': '',
+            },
+            'lost_and_found_retrieve': {
+                'compartment': '',
+                'receiver': '',
+                'receiver_contact': '',
+                'item': 'Placeholder',
+                'item_category': '',
+                'item_subcategory': '',
+                'item_detail': '',
+            },
         }
         self.memory = self.initial_memory
 
@@ -149,6 +171,7 @@ class Root(tk.Tk):
             child.destroy()
         homepage = LostFoundMenuPage(self)
         homepage.pack()
+
     def show_lostfound_input_details_page(self):
         for child in self.winfo_children():
             child.destroy()
@@ -160,11 +183,13 @@ class Root(tk.Tk):
             child.destroy()
         homepage = FoundDropoffForm(self)
         homepage.pack()
+
     def show_lostfound_retrieve_categories_page(self):
         for child in self.winfo_children():
             child.destroy()
         homepage = LostRetrieveForm(self)
         homepage.pack()
+
     def show_lostfound_dropoff_compartment_page(self):
         for child in self.winfo_children():
             child.destroy()
@@ -188,6 +213,7 @@ class Root(tk.Tk):
             child.destroy()
         homepage = LostFoundRetrievalCompartment(self)
         homepage.pack()
+
     def show_lostfound_confirm_retrieval_page(self):
         for child in self.winfo_children():
             child.destroy()

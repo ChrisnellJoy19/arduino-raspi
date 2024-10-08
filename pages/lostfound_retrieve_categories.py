@@ -141,17 +141,25 @@ class LostRetrieveForm(tk.Canvas):
                 self.selected_detail.set(f"Other/s ({specific_detail})")
 
     def submit_form(self):
-        if not self.selected_category.get():
+        item_category = self.selected_category.get()
+        item_subcategory = self.selected_subcategory.get()
+        item_detail = self.selected_detail.get()
+
+        if not item_category:
             messagebox.showerror("Error", "Please select a category")
             return
-        if not self.selected_subcategory.get():
+        if not item_subcategory:
             messagebox.showerror("Error", "Please select a subcategory")
             return
-        if not self.selected_detail.get():
+        if not item_detail:
             messagebox.showerror("Error", "Please select a detail")
             return
         
         messagebox.showinfo("Success", "Your item will be retrieved!")
-        print(f"Category: {self.selected_category.get()}, Subcategory: {self.selected_subcategory.get()}, Detail: {self.selected_detail.get()}")
+        print(f"Category: {item_category}, Subcategory: {item_subcategory}, Detail: {item_detail}")
+
+        self.root.memory['lost_and_found_retrieve']['item_category'] = item_category
+        self.root.memory['lost_and_found_retrieve']['item_subcategory'] = item_subcategory
+        self.root.memory['lost_and_found_retrieve']['item_detail'] = item_detail
 
         self.root.show_lostfound_retrieval_compartment_page()
