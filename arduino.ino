@@ -1,57 +1,48 @@
 const int redPin1   = 2; 
 const int greenPin1 = 3; 
-const int bluePin1  = 4; 
-const int irPin1 = 5;
-const int relayPin1 = 6;
+const int irPin1 = 4;
+const int relayPin1 = 5;
 
-const int redPin2   = 7; 
-const int greenPin2 = 8; 
-const int bluePin2  = 9; 
-const int irPin2 = 10;
-const int relayPin2 = 11;
+const int redPin2   = 6; 
+const int greenPin2 = 7; 
+const int irPin2 = 8;
+const int relayPin2 = 9;
 
 
-const int redPin3   = 12; 
-const int greenPin3 = 13; 
-const int bluePin3  = 14; 
-const int irPin3 = 15;
-const int relayPin3 = 16;
+const int redPin3   = 10; 
+const int greenPin3 = 11; 
+const int irPin3 = 12;
+const int relayPin3 = 13;
 
-const int redPin4   = __; 
-const int greenPin4 = __; 
-const int bluePin4  = __; 
-const int irPin4 = __;
-const int relayPin4 = __;
+const int redPin4   = 14; 
+const int greenPin4 = 15; 
+const int irPin4 = 16;
+const int relayPin4 = 17;
 
-const int redPin5   = __; 
-const int greenPin5 = __; 
-const int bluePin5  = __; 
-const int irPin5 = __;
-const int relayPin5 = __;
+const int redPin5   = 18; 
+const int greenPin5 = 19; 
+const int irPin5 = 20;
+const int relayPin5 = 21;
 
-const int redPin6   = __; 
-const int greenPin6 = __; 
-const int bluePin6  = __; 
-const int irPin6 = __;
-const int relayPin6 = __;
+const int redPin6   = 22; 
+const int greenPin6 = 23; 
+const int irPin6 = 24;
+const int relayPin6 = 25;
 
-const int redPin7   = __; 
-const int greenPin7 = __; 
-const int bluePin7  = __; 
-const int irPin7 = __;
-const int relayPin7 = __;
+const int redPin7   = 26; 
+const int greenPin7 = 27; 
+const int irPin7 = 28;
+const int relayPin7 = 29;
 
-const int redPin8   = __; 
-const int greenPin8 = __; 
-const int bluePin8  = __; 
-const int irPin8 = __;
-const int relayPin8 = __;
+const int redPin8   = 30; 
+const int greenPin8 = 31; 
+const int irPin8 = 32;
+const int relayPin8 = 33;
 
-const int redPin9   = __; 
-const int greenPin9 = __; 
-const int bluePin9  = __; 
-const int irPin9 = __;
-const int relayPin9 = __;
+const int redPin9   = 34; 
+const int greenPin9 = 35; 
+const int irPin9 = 36;
+const int relayPin9 = 37;
 
 int currentCommand = -1;
 
@@ -59,55 +50,46 @@ void setup() {
   Serial.begin(9600);
   pinMode(redPin1,   OUTPUT);
   pinMode(greenPin1, OUTPUT);
-  pinMode(bluePin1,  OUTPUT);
   pinMode(irPin1, INPUT);  
   pinMode(relayPin1, OUTPUT);
 
   pinMode(redPin2,   OUTPUT);
   pinMode(greenPin2, OUTPUT);
-  pinMode(bluePin2,  OUTPUT);
   pinMode(irPin2, INPUT);  
   pinMode(relayPin2, OUTPUT);
 
   pinMode(redPin3,   OUTPUT);
   pinMode(greenPin3, OUTPUT);
-  pinMode(bluePin3,  OUTPUT);
   pinMode(irPin3, INPUT);  
   pinMode(relayPin3, OUTPUT);
 
   pinMode(redPin4,   OUTPUT);
   pinMode(greenPin4, OUTPUT);
-  pinMode(bluePin4,  OUTPUT);
   pinMode(irPin4, INPUT);  
   pinMode(relayPin4, OUTPUT);
 
   pinMode(redPin5,   OUTPUT);
   pinMode(greenPin5, OUTPUT);
-  pinMode(bluePin5,  OUTPUT);
   pinMode(irPin5, INPUT);  
   pinMode(relayPin5, OUTPUT);
 
   pinMode(redPin6,   OUTPUT);
   pinMode(greenPin6, OUTPUT);
-  pinMode(bluePin6,  OUTPUT);
   pinMode(irPin6, INPUT);  
   pinMode(relayPin6, OUTPUT);
   
   pinMode(redPin7,   OUTPUT);
   pinMode(greenPin7, OUTPUT);
-  pinMode(bluePin7,  OUTPUT);
   pinMode(irPin7, INPUT);  
   pinMode(relayPin7, OUTPUT);
 
   pinMode(redPin8,   OUTPUT);
   pinMode(greenPin8, OUTPUT);
-  pinMode(bluePin8,  OUTPUT);
   pinMode(irPin8, INPUT);  
   pinMode(relayPin8, OUTPUT);
   
   pinMode(redPin9,   OUTPUT);
   pinMode(greenPin9, OUTPUT);
-  pinMode(bluePin9,  OUTPUT);
   pinMode(irPin9, INPUT);  
   pinMode(relayPin9, OUTPUT);
 }
@@ -333,55 +315,46 @@ void sendResponse(String response) {
 void setColor1(int R, int G, int B) {
   analogWrite(redPin1,   R);
   analogWrite(greenPin1, G);
-  analogWrite(bluePin1,  B);
 }
 
 void setColor2(int R, int G, int B) {
   analogWrite(redPin2,   R);
   analogWrite(greenPin2, G);
-  analogWrite(bluePin2,  B);
 }
 
 void setColor3(int R, int G, int B) {
   analogWrite(redPin3,   R);
   analogWrite(greenPin3, G);
-  analogWrite(bluePin3,  B);
 }
 
 void setColor4(int R, int G, int B) {
   analogWrite(redPin4,   R);
   analogWrite(greenPin4, G);
-  analogWrite(bluePin4,  B);
 }
 
 void setColor5(int R, int G, int B) {
   analogWrite(redPin5,   R);
   analogWrite(greenPin5, G);
-  analogWrite(bluePin5,  B);
 }
 
 void setColor6(int R, int G, int B) {
   analogWrite(redPin6,   R);
   analogWrite(greenPin6, G);
-  analogWrite(bluePin6,  B);
 }
 
 void setColor7(int R, int G, int B) {
   analogWrite(redPin7,   R);
   analogWrite(greenPin7, G);
-  analogWrite(bluePin7,  B);
 }
 
 void setColor8(int R, int G, int B) {
   analogWrite(redPin8,   R);
   analogWrite(greenPin8, G);
-  analogWrite(bluePin8,  B);
 }
 
 void setColor9(int R, int G, int B) {
   analogWrite(redPin9,   R);
   analogWrite(greenPin9, G);
-  analogWrite(bluePin9,  B);
 }
 
 void detectItem1() {
