@@ -55,7 +55,7 @@ class ConfirmRetrieval(tk.Canvas):
             self.root.machine.compartments[str(compartment)].turn_off_relay()
         print("Compartment relay turned off")
         
-        msg = f'Hello {sender}, the item has been retrieved by {receiver}. For more details you can contact the receiver on {receiver_contact}'
+        msg = f'Hello {sender}, Thank you for using UniLOCK! Your item has been retrieved by {receiver}. For more details you can contact the receiver on {receiver_contact}'
         self.root.machine.send_message(sender_contact, msg)
         messagebox.showinfo("Thank you!", "The sender will be notified that the item has been retrieved.")
         

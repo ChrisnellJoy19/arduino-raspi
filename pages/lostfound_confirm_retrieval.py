@@ -45,11 +45,18 @@ class LostFoundConfirmRetrieval(tk.Canvas):
 
     def on_click(self, event=None):
         compartment = self.root.memory['retrieve']['compartment']
+        sender = self.root.memory['lost_and_found_dropoff']['sender']
+        sender_contact = self.root.memory['lost_and_found_dropoff']['sender_contact']
+        receiver = self.root.memory['lost_and_found_retrieve']['receiver']
+        receiver_contact = self.root.memory['lost_and_found_retrieve']['receiver_contact']
+        self.itemconfig(self.rect, fill="#0D2646")
+
         if not self.root.debug:
             self.root.machine.compartments[str(compartment)].turn_off_relay()
         print("Compartment relay turned off")
         
-        self.itemconfig(self.rect, fill="#0D2646")
+        msg = f'Hello {sender}, Thank you for using UniLOCK! Your item has been retrieved by {receiver}. For more details you can contact the receiver on {receiver_contact}'
+        self.root.machine.send_message(sender_contact, msg)
         messagebox.showinfo("Thank you!", "The sender will be notified that the item has been retrieved.")
         
         # Show the next page

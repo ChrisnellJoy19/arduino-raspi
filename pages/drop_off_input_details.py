@@ -60,7 +60,6 @@ class DropOffForm(tk.Canvas):
         button_frame = tk.Frame(form_frame, bg='white')
         button_frame.place(x=30, y=310)
 
-        # Back button
         def on_back():
             self.root.show_menu_page()  # Go back to the menu page
 

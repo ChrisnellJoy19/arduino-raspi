@@ -33,6 +33,14 @@ class VerificationCode(tk.Canvas):
         self.entry = tk.Entry(self.entry_frame, textvariable=self.code, font=('Arial', 24), width=18, justify='center', highlightthickness=0, bd=2, bg='#fff', fg='#333')
         self.entry.pack(pady=5)
 
+        # button_frame = tk.Frame(self.entry_frame, bg = 'white')
+        # button_frame.place(x=30, y=310)
+
+        # def on_back():
+        #     self.root.show_menu_page()
+
+        # back_button = tk.Button(button_frame, text='Back', bg='white', fg='#333', font=('Cambria', 12), command=on_back, highlightbackground='gray', highlightthickness=1)
+        # back_button.pack(side=tk.LEFT, padx=20)
         # Keypad section
         keypad_frame = tk.Frame(self, bg='#f7f7f7', highlightthickness=0)
         self.create_window(400, 310, window=keypad_frame, anchor='center')
