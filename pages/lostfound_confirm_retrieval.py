@@ -59,5 +59,7 @@ class LostFoundConfirmRetrieval(tk.Canvas):
         self.root.machine.send_message(sender_contact, msg)
         messagebox.showinfo("Thank you!", "The sender will be notified that the item has been retrieved.")
         
+        msg = f'Hello {receiver}, Thank you for using UniLOCK! Your item was left by {sender}. For more details you can contact the sender on {sender_contact}'
+        self.root.machine.send_message(receiver_contact, msg)
         # Show the next page
         self.root.show_welcome_page()
