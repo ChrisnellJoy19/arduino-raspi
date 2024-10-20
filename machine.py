@@ -4,7 +4,9 @@ import random
 import serial
 import sys
 import time 
+import threading
 
+from datetime import datetime
 from firebase_admin import credentials, firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
 from loguru import logger
@@ -61,7 +63,15 @@ class Machine:
         cred = credentials.Certificate('service.json') 
         firebase_admin.initialize_app(cred)
         self.database = firestore.client()
+        self.settings_reference = self.database.collection('settings').document('current')
+        self.settings_reference.on_snapshot(self._on_settings_change)
         self.logger.info(f'Firestore initialized')
+
+        self.reminder_time = None
+        self.last_reminder_date = None
+        self.reminder_thread = threading.Thread(target=self.run_reminder)
+        self.reminder_thread.start()
+        self.logger.info(f'Reminder thread started')
 
         if not debug:
             self.sim808 = Sim808(gsm_port)
@@ -482,3 +492,34 @@ class Machine:
         compartment.updated_at = datetime_now
         compartment_document.set(compartment.model_dump(), merge=True)
         self.logger.info(f'Compartment updated with id: {compartment_id}')
+
+    def _on_settings_change(self, doc_snapshot, changes, read_time):
+        '''
+        Callback function for detected changes in
+        setting coming from Firebase
+        '''
+        data = doc_snapshot[-1].to_dict()
+        self.reminder_time = datetime.strptime(data['reminder_time'], '%I:%M %p').time()
+        self.last_reminder_date = datetime.strptime(data['last_reminder'], '%Y-%m-%d').date()
+        self.logger.info(f'Reminder time has been update to: {self.reminder_time}')
+
+    def run_reminder(self):
+        settings_document = self.database.collection('settings').document('current')
+        transaction_collection = self.database.collection('transactions')
+        while True:
+            if self.reminder_time is None or self.last_reminder_date is None:
+                continue
+
+            if datetime.now().time() >= self.reminder_time and \
+               datetime.now().date() > self.last_reminder_date:
+                self.last_reminder_date = datetime.now().date()
+                settings_document.update({'last_reminder': datetime.now().strftime('%Y-%m-%d')})
+                
+                pending_transactions = transaction_collection.where(filter=FieldFilter('status', '==', 'pending')) \
+                                                             .where(filter=FieldFilter('transaction_type', '==', 'regular')) \
+                                                             .get()
+                for transaction_data in pending_transactions:
+                    transaction = Transaction(**transaction_data.to_dict())
+                    message = f'You have pending item ({transaction.item_category}) on compartment: {transaction.compartment_id}'
+                    self.send_message(transaction.receiver_contact, message)
+                self.logger.info('Daily reminder fired')
