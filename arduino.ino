@@ -1,28 +1,28 @@
 const int relayPin1 = 2;
-const int relayPin2 = 3;
-const int relayPin3 = 4;
-const int relayPin4 = 5;
-const int relayPin5 = 6;
-const int relayPin6 = 7;
-const int relayPin7 = 8;
-const int relayPin8 = 9;
-const int relayPin9 = 10;
+const int relayPin2 = 6;
+const int relayPin3 = 7;
+const int relayPin4 = 8;
+const int relayPin5 = 3;
+const int relayPin6 = 9;
+const int relayPin7 = 4;
+const int relayPin8 = 10;
+const int relayPin9 = 5;
 
-const int irPin1 = 11;
-const int irPin2 = 12;
-const int irPin3 = 13;
-const int irPin4 = 14;
-const int irPin5 = 15;
-const int irPin6 = 16;
-const int irPin7 = 17;
-const int irPin8 = 18;
-const int irPin9 = 19;
+const int irPin1 = 38;
+const int irPin2 = 32;
+const int irPin3 = 33;
+const int irPin4 = 34;
+const int irPin5 = 40;
+const int irPin6 = 39;
+const int irPin7 = 35;
+const int irPin8 = 36;
+const int irPin9 = 37;
 
-const int redPin1   = 20; 
-const int greenPin1 = 21;
+const int redPin1   = 22; 
+const int greenPin1 = 23;
  
-const int redPin2   = 22; 
-const int greenPin2 = 23;
+const int redPin2   = 14; 
+const int greenPin2 = 15;
 
 const int redPin3   = 24; 
 const int greenPin3 = 25;
@@ -30,20 +30,20 @@ const int greenPin3 = 25;
 const int redPin4   = 26; 
 const int greenPin4 = 27;
 
-const int redPin5   = 28; 
-const int greenPin5 = 29;
+const int redPin5   = 20; 
+const int greenPin5 = 21;
   
-const int redPin6   = 30; 
-const int greenPin6 = 31;
+const int redPin6   = 28; 
+const int greenPin6 = 29;
  
-const int redPin7   = 32; 
-const int greenPin7 = 33; 
+const int redPin7   = 18; 
+const int greenPin7 = 19;
 
-const int redPin8   = 34; 
-const int greenPin8 = 35; 
+const int redPin8   = 30; 
+const int greenPin8 = 31; 
 
-const int redPin9   = 36; 
-const int greenPin9 = 37; 
+const int redPin9   = 16;
+const int greenPin9 = 17;
 
 int currentCommand = -1;
 
