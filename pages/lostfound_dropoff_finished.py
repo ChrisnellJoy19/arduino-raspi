@@ -43,10 +43,11 @@ class LostFoundDropOffFinished(tk.Canvas):
 
         if not self.root.debug:
             self.root.machine.compartments[str(compartment)].turn_off_relay()
+            self.root.machine.compartments[str(compartment)].set_color_red()
         print("Compartment relay turned off")
 
-        self.root.memory['lost_and_found_dropoff']['sender'] = self.root.memory['lost_and_found']['name']
-        self.root.memory['lost_and_found_dropoff']['sender_contact'] = self.root.memory['lost_and_found']['contact']
+        self.root.memory['lost_and_found_dropoff']['name'] = self.root.memory['lost_and_found']['name']
+        self.root.memory['lost_and_found_dropoff']['contact'] = self.root.memory['lost_and_found']['contact']
         print(self.root.memory['lost_and_found_dropoff'])
         self.root.machine.dropoff_lost_item(str(compartment), self.root.memory['lost_and_found_dropoff'])
 

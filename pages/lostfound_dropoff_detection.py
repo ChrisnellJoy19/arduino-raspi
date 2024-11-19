@@ -36,27 +36,30 @@ class LostFoundDropOffDetection(tk.Canvas):
         label.place(x=220, y=385)
 
         
-        self.tag_bind(self.rect, "<Button-1>", self.on_click)
-        self.tag_bind(self.proceed_drop_off_image, "<Button-1>", self.on_click)
-        
-    def on_click(self, event=None):
-        compartment = self.root.memory['dropoff']['compartment']
+        compartment = self.root.memory['lost_and_found_dropoff']['compartment']
         if not self.root.debug:
-            self.root.machine.compartments[str(compartment)].turn_on_relay()
-        print("Compartment relay turned on")
+            item_detected = False
 
-        if self.root.debug:
-            print("Item Detected!")
-        else:
-            print("Detecting Item")
-            while not self.root.machine.compartments[str(compartment)].item_detection():
-                pass
-            print("Item detected")
+            while not item_detected:
+                    
+                response = self.root.machine.compartments[str(compartment)].item_detection()
+                print(response)
 
-        self.itemconfig(self.rect, fill="#0D2646")
-        messagebox.showinfo("Thank you!", "Detected.")
-        
-        # Show the next page
-        self.root.show_lostfound_dropoff_finished_page()
+                messagebox.showinfo("Position Item", "Please position the item closely for accurate detection")
+
+                if response == "1":
+                    print("ITEM DETECTED")
+                    item_detected = True
+                    messagebox.showinfo("Thank you!", "Item detected successfully.")
+                else:
+                    print("No item detected.")
+                    retry = messagebox.askretrycancel("Error", "No item detected. Try again?")
+                    if not retry:
+                        print("User canceled item detection.")
+                        self.root.show_welcome_page()
+                        break
+            
+        if item_detected:
+            self.root.show_lostfound_dropoff_finished_page()
 
   

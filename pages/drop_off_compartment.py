@@ -109,16 +109,17 @@ class DropOffCompartmentForm(tk.Canvas):
                 # Navigate to the next page only if the user confirms
                 print(f"Proceeding with compartment {item_index}")
                 self.root.memory['dropoff']['compartment'] = item_index
+                compartment = self.root.memory['dropoff']['compartment']
+
+                if not self.root.debug:
+                    self.root.machine.compartments[str(compartment)].turn_on_relay()
+                print("Compartment relay turned on")
                 self.root.show_drop_off_detection_page()
             else:
                 # Revert the color back to default if the user cancels
                 print("User canceled, reverting color.")
                 self.itemconfig(item, fill=current_color)
             
-        compartment = self.root.memory['dropoff']['compartment']
-        if not self.root.debug:
-            self.root.machine.compartments[str(compartment)].turn_on_relay()
-        print("Compartment relay turned on")
 
     def back_button_click(self):
         print("Back button clicked")

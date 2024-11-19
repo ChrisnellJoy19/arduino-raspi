@@ -51,8 +51,9 @@ class DropOffFinished(tk.Canvas):
 
 
         otp = self.root.machine.dropoff_item(str(compartment), self.root.memory['dropoff'])
-        msg = f'Hello {receiver}, you have a new item from {sender} located on compartment {compartment}. Your OTP is {otp}. For more details you can contact the sender on {sender_contact}'
+        msg = f'Hello {receiver}, \n\nYou have a new item from {sender} securely stored in compartment {compartment} of UniLOCK, the smart locker system at Marinduque State University. Please use the following One-Time Password (OTP) to access your item: {otp}. \n\nFor further assistance, you may contact the sender directly at {sender_contact}. \n\nThank you for using UniLOCK. \n\nBest regards, UniLOCK Team'
         self.root.machine.send_message(receiver_contact, msg)
+        self.root.machine.compartments[str(compartment)].set_color_red()
         #self.root.machine.reset_memory()
         messagebox.showinfo("Thank you!", "Code will be sent to the receiver.")
 

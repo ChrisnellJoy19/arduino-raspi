@@ -53,11 +53,20 @@ class ConfirmRetrieval(tk.Canvas):
         
         if not self.root.debug:
             self.root.machine.compartments[str(compartment)].turn_off_relay()
-        print("Compartment relay turned off")
+            print("Compartment relay turned off")
         
-        msg = f'Hello {sender}, Thank you for using UniLOCK! Your item has been retrieved by {receiver}. For more details you can contact the receiver on {receiver_contact}'
-        self.root.machine.send_message(sender_contact, msg)
-        messagebox.showinfo("Thank you!", "The sender will be notified that the item has been retrieved.")
         
+        # transaction = self.root.machine.get_compartment_pending_transaction()
+        # sender = transaction.sender
+        # sender_contact = transaction.sender_contact
+        # receiver = transaction.receiver
+        # receiver_contact = transaction.receiver_contact
+
+        # msg = f'Hello {sender}, \n\nThank you for using UniLOCK! Your item has been successfullly retrieved by {receiver}. For further details, please contact {receiver} at {receiver_contact}. \n\nThank you for using UniLOCK!'
+        # to = self.initial_memory['dropoff']['sender_contact']
+        # self.root.machine.send_message(to=str(to), msg=str(msg)).send_sms()
+        self.root.machine.compartments[str(compartment)].set_color_green()
+        #messagebox.showinfo("Thank you!", "The sender will be notified that the item has been retrieved.")
+                                                 
         # Show the next page
         self.root.show_welcome_page()

@@ -106,16 +106,17 @@ class LostFoundDropOffCompartment(tk.Canvas):
                 # Navigate to the next page only if the user confirms
                 print(f"Proceeding with compartment {item_index}")
                 self.root.memory['lost_and_found_dropoff']['compartment'] = item_index
+                compartment = self.root.memory['lost_and_found_dropoff']['compartment']
+                
+                if not self.root.debug:
+                    self.root.machine.compartments[str(compartment)].turn_on_relay()
+                    print("Compartment relay turned on")
                 self.root.show_lostfound_dropoff_detection_page()
             else:
                 # Revert the color back to default if the user cancels
                 print("User canceled, reverting color.")
                 self.itemconfig(item, fill=current_color)
-            
-        compartment = self.root.memory['lost_and_found_dropoff']['compartment']
-        if not self.root.debug:
-            self.root.machine.compartments[str(compartment)].turn_on_relay()
-        print("Compartment relay turned on")
+    
 
     def back_button_click(self):
         print("Back button clicked")

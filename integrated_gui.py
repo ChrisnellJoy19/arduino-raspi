@@ -25,6 +25,7 @@ from machine import Machine
 
 class Root(tk.Tk):
 
+    
     # Initialize the GUI
     current_language = 'English'
 
@@ -35,7 +36,8 @@ class Root(tk.Tk):
         self.title('URS')
         self.geometry('800x480')
         self.resizable(False, False)
-        
+
+           
         # Initialize assets
         self.bg_image = ImageTk.PhotoImage(Image.open('assets/background.png').resize((800, 480)))
         self.tapscreen_icon = ImageTk.PhotoImage(Image.open('assets/tap-screen.png').resize((154, 125)))
@@ -53,7 +55,18 @@ class Root(tk.Tk):
         self.finish_drop_off= ImageTk.PhotoImage(Image.open('assets/drop_off_finished.png').resize((200, 180)))
         self.back_button= ImageTk.PhotoImage(Image.open('assets/back_arrow.png').resize((30, 30)))
         self.back_button_id= ImageTk.PhotoImage(Image.open('assets/back_arrow.png').resize((30, 30)))
+        
 
+        for compartment_key in self.machine.compartments.keys():
+            self.machine.compartments[compartment_key].turn_off_relay()
+            status = self.machine.get_compartment_status(compartment_key)
+            
+
+            if status == "available":
+                self.machine.compartments[compartment_key].set_color_green()
+            else:
+                self.machine.compartments[compartment_key].set_color_red()
+                
         # Initialize root memmap
         self.initial_memory = {
             'dropoff': {
@@ -68,6 +81,7 @@ class Root(tk.Tk):
             'retrieve': {
                 'compartment': '',
                 'otp': ''
+                
             },
             'lost_and_found': {
                 'name': '',
@@ -222,5 +236,5 @@ class Root(tk.Tk):
 
 
 if __name__ == '__main__':
-    machine = Machine(port="/dev/ttyACM0", gsm_port="/dev/ttyUSB0")
+    machine = Machine(port=None, gsm_port=None, debug=True)
     root = Root(machine=machine)

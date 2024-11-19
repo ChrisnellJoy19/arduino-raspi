@@ -52,7 +52,15 @@ class Machine:
         )
 
         self.logger.info('Intializing machine')
-        self.available_commands = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14] 
+        self.available_commands = [0,1,2,3,4,
+                                   5,6,7,8,9,
+                                   10,11,12,13,14,
+                                   15,16,17,18,19,
+                                   20,21,22,23,24,
+                                   25,26,27,28,29,
+                                   30,31,32,33,34,
+                                   35,36,37,38,39,
+                                   40,41,42,43,44]  
         self.arduino = serial.Serial(port, 9600, timeout = 9) 
         if port:
             self.arduino.reset_input_buffer()
@@ -72,6 +80,7 @@ class Machine:
         self.reminder_thread = threading.Thread(target=self.run_reminder)
         self.reminder_thread.start()
         self.logger.info(f'Reminder thread started')
+         
 
         if not debug:
             self.sim808 = Sim808(gsm_port)
@@ -409,8 +418,7 @@ class Machine:
             .where(filter=FieldFilter('compartment_id', '==', compartment_id)) \
             .where(filter=FieldFilter('status', '==', TransactionStatus.pending)) \
             .limit(1) \
-            .get()
-        
+            
         if pending_transaction:
             self.logger.warning(f'Compartment {compartment_id} has pending transaction')
             raise Exception(f'Compartment {compartment_id} has pending transaction')
@@ -450,7 +458,7 @@ class Machine:
         compartment = Compartment(**compartment.to_dict())
         if compartment.status != CompartmentStatus.unavailable:
             self.logger.warning(f'Compartment {compartment_id} is not unavailable', status=compartment.status)
-            raise Exception(f'Compartment {compartment_id} is not unavailable')
+            #raise Exception(f'Compartment {compartment_id} is not unavailable')
 
         # Get pending transaction
         pending_transaction = transaction_collection \
@@ -493,6 +501,56 @@ class Machine:
         compartment_document.set(compartment.model_dump(), merge=True)
         self.logger.info(f'Compartment updated with id: {compartment_id}')
 
+    # def get_compartment_pending_transaction(self, compartment_id: str, details: dict) -> str:
+        
+    #     """
+    #     Emulate a retrieve operation on specific compartment
+
+    #     :param compartment_id: Compartment number (must be a key of self.compartments)
+    #     :param details: Rettrieve detail, see `utils.Transaction` for details
+    #     :return: transaction
+    #     """
+    #     compartment_document = self.database.collection('compartments').document(compartment_id)
+    #     transaction_collection = self.database.collection('transactions')
+    #     #transaction_collection = self.database.orderBy("", "asc")
+
+    #     datetime_now = dateutil.get_datetime_gmt()
+
+    #     compartment = compartment_document.get()
+    #     if not compartment.exists:
+    #         self.logger.warning(f'Compartment {compartment_id} does not exists')
+    #         raise Exception(f'Compartment {compartment_id} does not exists')
+        
+    #     # Get compartment status
+    #     compartment = Compartment(**compartment.to_dict())
+    #     if compartment.status != CompartmentStatus.available:
+    #         self.logger.warning(f'Compartment {compartment_id} is not available', status=compartment.status)
+    #         raise Exception(f'Compartment {compartment_id} is not available')
+        
+    #     # Get pending transaction
+    #     pending_transaction = transaction_collection \
+    #         .where(filter=FieldFilter('compartment_id', '==', compartment_id)) \
+    #         .where(filter=FieldFilter('status', '==', TransactionStatus.pending)) \
+    #         .limit(1) \
+    #         .get()
+        
+    #     if pending_transaction:
+    #         self.logger.warning(f'Compartment {compartment_id} has pending transaction')
+    #         raise Exception(f'Compartment {compartment_id} has pending transaction')
+        
+    #     pending_transaction = pending_transaction[0]
+    #     transaction = Transaction(**pending_transaction.to_dict())
+        
+    #     # transaction = Machine.get_compartment_pending_transaction(
+    #     #     sender = sender,
+    #     #     sender_contact = sender_contact,
+    #     #     receiver = receiver,
+    #     #     receiver_contact = receiver_contact
+    #     #     **details
+    #     # )
+
+    #     return transaction
+        
     def _on_settings_change(self, doc_snapshot, changes, read_time):
         '''
         Callback function for detected changes in
@@ -507,6 +565,10 @@ class Machine:
         settings_document = self.database.collection('settings').document('current')
         transaction_collection = self.database.collection('transactions')
         while True:
+
+            # print(self.reminder_time)
+            # print(self.last_reminder_time)
+            
             if self.reminder_time is None or self.last_reminder_date is None:
                 continue
 
