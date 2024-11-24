@@ -10,6 +10,7 @@ class DropOffForm(tk.Canvas):
         # Variables for tracking keyboard state
         self.keyboard_frame = None
         self.active_entry = None
+        self.form_frame = None  # Keep a reference to the form frame
 
         # Background image
         self.create_image(0, 0, anchor='nw', image=self.root.bg_image)
@@ -25,48 +26,47 @@ class DropOffForm(tk.Canvas):
         title_icon.place(x=250, y=10)
 
         # Form frame
-        form_frame = tk.Frame(self, bg='white', width=600, height=380, highlightbackground='gray', highlightthickness=1)
-        form_frame.place(x=100, y=80)
+        self.form_frame = tk.Frame(self, bg='white', width=600, height=380, highlightbackground='gray', highlightthickness=1)
+        self.form_frame.place(x=100, y=80)
 
         # Form title
-        form_title_label = tk.Label(form_frame, text='Drop-Off Form', font=('Cambria', 18, 'bold'), fg='#333', bg='white')
+        form_title_label = tk.Label(self.form_frame, text='Drop-Off Form', font=('Cambria', 18, 'bold'), fg='#333', bg='white')
         form_title_label.place(x=205, y=20)
 
         # Name label and entry
-        sender_label = tk.Label(form_frame, text='Enter your name:', font=('Cambria', 14), fg='#333', bg='white')
+        sender_label = tk.Label(self.form_frame, text='Enter your name:', font=('Cambria', 14), fg='#333', bg='white')
         sender_label.place(x=50, y=60)
-        self.sender_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
+        self.sender_entry = tk.Entry(self.form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.sender_entry.place(x=70, y=90)
         self.sender_entry.bind("<FocusIn>", lambda event: self.show_keyboard(self.sender_entry))
 
         # Contact number label and entry
-        sender_contact_label = tk.Label(form_frame, text='Contact No.:', font=('Cambria', 14), fg='#333', bg='white')
+        sender_contact_label = tk.Label(self.form_frame, text='Contact No.:', font=('Cambria', 14), fg='#333', bg='white')
         sender_contact_label.place(x=50, y=120)
-        self.sender_contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
+        self.sender_contact_entry = tk.Entry(self.form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.sender_contact_entry.place(x=70, y=150)
         self.sender_contact_entry.insert(0, '+639')  # Automatically insert +639
         self.sender_contact_entry.bind("<FocusIn>", lambda event: self.show_keyboard(self.sender_contact_entry))
         self.sender_contact_entry.bind("<KeyRelease>", self.validate_prefix)
 
         # Receiver's name label and entry
-        receiver_label = tk.Label(form_frame, text='Enter receiver\'s name:', font=('Cambria', 14), fg='#333', bg='white')
+        receiver_label = tk.Label(self.form_frame, text='Enter receiver\'s name:', font=('Cambria', 14), fg='#333', bg='white')
         receiver_label.place(x=50, y=180)
-        self.receiver_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
+        self.receiver_entry = tk.Entry(self.form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.receiver_entry.place(x=70, y=210)
         self.receiver_entry.bind("<FocusIn>", lambda event: self.show_keyboard(self.receiver_entry))
 
         # Receiver's contact number label and entry
-        receiver_contact_label = tk.Label(form_frame, text='Receiver\'s contact no.:', font=('Cambria', 14), fg='#333', bg='white')
+        receiver_contact_label = tk.Label(self.form_frame, text='Receiver\'s contact no.:', font=('Cambria', 14), fg='#333', bg='white')
         receiver_contact_label.place(x=50, y=240)
-        self.receiver_contact_entry = tk.Entry(form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
+        self.receiver_contact_entry = tk.Entry(self.form_frame, width=40, font=('Cambria', 14), highlightbackground='gray', highlightthickness=1)
         self.receiver_contact_entry.place(x=70, y=270)
         self.receiver_contact_entry.insert(0, '+639')  # Automatically insert +639
         self.receiver_contact_entry.bind("<FocusIn>", lambda event: self.show_keyboard(self.receiver_contact_entry))
         self.receiver_contact_entry.bind("<KeyRelease>", self.validate_prefix)
 
-
         # Button frame
-        button_frame = tk.Frame(form_frame, bg='white')
+        button_frame = tk.Frame(self.form_frame, bg='white')
         button_frame.place(x=30, y=310)
 
         def on_back():
@@ -91,7 +91,7 @@ class DropOffForm(tk.Canvas):
         self.keyboard_frame = tk.Frame(self.root, bg='lightgray')
 
         # Place keyboard at the bottom, centered
-        self.keyboard_frame.place(x=2, y=250, width=800, height=230)
+        self.keyboard_frame.place(x=2, y=300, width=800, height=180)
 
         keys = [
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
@@ -103,18 +103,30 @@ class DropOffForm(tk.Canvas):
         # Set the layout parameters
         max_cols = 10  # Maximum number of columns for the keyboard layout
 
-        # Create the key buttons
+        # Configure columns and rows to have equal weight (to eliminate gaps)
+        for i in range(max_cols):
+            self.keyboard_frame.grid_columnconfigure(i, weight=1, uniform="equal")
+        self.keyboard_frame.grid_rowconfigure(0, weight=1, uniform="equal")
+        self.keyboard_frame.grid_rowconfigure(1, weight=1, uniform="equal")
+        self.keyboard_frame.grid_rowconfigure(2, weight=1, uniform="equal")
+        self.keyboard_frame.grid_rowconfigure(3, weight=1, uniform="equal")
+        self.keyboard_frame.grid_rowconfigure(4, weight=1, uniform="equal")
+
+        # Create the key buttons with reduced gaps
         for i, key in enumerate(keys):
-            button = tk.Button(self.keyboard_frame, text=key, width=4, height=2,
-                               command=lambda k=key: self.insert_text(k))
-            button.grid(row=i // max_cols, column=i % max_cols, padx=1, pady=1)
+            button = tk.Button(self.keyboard_frame, text=key, width=4, height=1,
+                            command=lambda k=key: self.insert_text(k))
+            button.grid(row=i // max_cols, column=i % max_cols, padx=0, pady=0, sticky="nsew")  # sticky="nsew" makes buttons stretch
 
         # Add the Spacebar and Backspace buttons in a new row below
         spacebar = tk.Button(self.keyboard_frame, text='Space', width=50, height=1, command=lambda: self.insert_text(' '))
-        spacebar.grid(row=4, column=0, columnspan=5, pady=5, padx=2)
+        spacebar.grid(row=4, column=0, columnspan=5, pady=5, padx=0, sticky="nsew")  # Use sticky to make it fill the space
 
         backspace_button = tk.Button(self.keyboard_frame, text='Delete', width=50, height=1, command=self.delete_text)
-        backspace_button.grid(row=4, column=5, columnspan=5, pady=5, padx=2)
+        backspace_button.grid(row=4, column=5, columnspan=5, pady=5, padx=0, sticky="nsew")  # Use sticky to make it fill the space
+
+        # Reposition the form frame to stay above the keyboard
+        self.move_form_up()
 
     def hide_keyboard(self, event):
         """Hide the keyboard if clicking outside the active entry."""
@@ -123,6 +135,15 @@ class DropOffForm(tk.Canvas):
             if self.keyboard_frame:
                 self.keyboard_frame.destroy()
                 self.keyboard_frame = None
+            self.move_form_down()
+
+    def move_form_up(self):
+        """Move the form frame up when the keyboard is visible."""
+        self.form_frame.place(x=100, y=0)  # Move form up when keyboard appears
+
+    def move_form_down(self):
+        """Move the form frame back down when the keyboard is hidden."""
+        self.form_frame.place(x=100, y=80)  # Reset position after keyboard disappears
 
     def insert_text(self, char):
         if self.active_entry:
@@ -147,7 +168,6 @@ class DropOffForm(tk.Canvas):
         sender_contact = self.sender_contact_entry.get().strip()
         receiver = self.receiver_entry.get().strip()
         receiver_contact = self.receiver_contact_entry.get().strip()
-        
 
         if not sender or not sender_contact or not receiver or not receiver_contact:
             messagebox.showerror("Invalid Input", "Please fill in all fields")
