@@ -24,7 +24,10 @@ class VerificationCode(tk.Canvas):
         header_label = tk.Label(icon_text_frame, text='RETRIEVE', font=('Arial', 24, 'bold'), fg='white', bg='#333')
         header_label.pack(side='left')
 
-        # Entry section
+        # Correctly bind the back button to back_button_click
+        back_button = tk.Button(self, text="Cancel", font=("Segoe UI", 16), fg='white', bg='#333', command=self.back_button_click)
+        back_button.place(x=50, y=420)
+        
         self.entry_frame = tk.Frame(self, bg=self.root.cget('bg'), highlightthickness=0)
         self.create_window(400, 120, window=self.entry_frame, anchor='center')
         tk.Label(self.entry_frame, text="Enter Verification Code:", font=('Vani', 20, 'bold'), fg='#333').pack(pady=5)
@@ -35,7 +38,6 @@ class VerificationCode(tk.Canvas):
         keypad_frame = tk.Frame(self, bg='#f7f7f7', highlightthickness=0)
         self.create_window(400, 310, window=keypad_frame, anchor='center')
         self.create_keypad(keypad_frame)
-
 
     def create_rounded_button(self, frame, text, row, column, command=None):
         width, height = 70, 60
@@ -94,3 +96,7 @@ class VerificationCode(tk.Canvas):
         self.root.memory['retrieve']['otp'] = otp
         print(f"OTP entered: {otp}")
         self.root.show_retrieval_compartment_page()
+
+    def back_button_click(self):
+        print("Back button clicked")
+        self.root.show_menu_page()

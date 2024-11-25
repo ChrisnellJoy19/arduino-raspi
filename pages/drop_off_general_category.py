@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
+
 def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
     points = [x1 + radius, y1,
               x1 + radius, y1,
@@ -22,8 +23,8 @@ def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
               x1, y1 + radius,
               x1, y1 + radius,
               x1, y1]
-
     return canvas.create_polygon(points, **kwargs, smooth=True)
+
 
 class DropoffGeneralCategoryForm(tk.Canvas):
     def __init__(self, root, **kwargs):
@@ -43,114 +44,70 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         title_label.place(x=350, y=15)
         title_icon = tk.Label(title_frame, image=self.root.dropoff_icon, bg='#333')
         title_icon.place(x=250, y=10)
-        
-        self.create_text(410, 140, text="Select Item Details:", font=("Helvetica", 18, 'bold'), fill="#333333")
 
-        # Create Buttons
-        self.create_button_with_icon(100, 180, "Academic\nMaterials", root.academic_icon,
-                                     self.academic_materials_action, '#FFFFFF', '#333333')
-        self.create_button_with_icon(320, 180, "Packages", root.packages_icon,
-                                     self.packages_action, '#FFFFFF', '#333333')
-        self.create_button_with_icon(540, 180, "  Personal \nBelongings", root.personal_belongings_icon,
-                                     self.personal_belongings_action, '#FFFFFF', '#333333')
-        self.create_button_with_icon(210, 300, "Electronic\n   Devices", root.electronic_devices_icon,
-                                     self.electronic_devices_action, '#FFFFFF', '#333333')
-        self.create_button_with_icon(430, 300, "  Others \n(Specify):", root.others_icon,
-                                     self.other_category_action, '#FFFFFF', '#333333')
+        self.create_text(410, 140, text="Select Item Size:", font=("Helvetica", 18, 'bold'), fill="#333333")
 
-    # def create_back_button(self):
-    # # Create back button with arrow icon
-    #     if self.arrow_icon:
-    #         self.back_button = self.create_image(50, 50, anchor='nw', image=self.root.back_button)
-    #         self.tag_bind(self.back_button_id, '<Button-1>', self.back_button_action)
+        # Create Buttons with Click to Show Specifications
+        self.create_button_with_icon(100, 180, "Extra Small", root.personal_belongings_icon, self.extra_small_size_action, '#FFFFFF', '#333333', "Small size (up to 10kg, max 40x30x30 cm)")
+        self.create_button_with_icon(320, 180, "Small", root.personal_belongings_icon, self.small_size_action, '#FFFFFF', '#333333', "Small size (up to 10kg, max 40x30x30 cm)")
+        self.create_button_with_icon(540, 180, "Medium", root.electronic_devices_icon, self.medium_size_action, '#FFFFFF', '#333333', "Medium size (up to 20kg, max 50x40x40 cm)")
+        self.create_button_with_icon(150, 300, "Large", root.academic_icon, self.large_size_action, '#FFFFFF', '#333333', "Large size (up to 30kg, max 60x50x50 cm)")
+        self.create_button_with_icon(370, 300, "Extra Large", root.packages_icon, self.extra_large_action, '#FFFFFF', '#333333', "Extra Large (up to 50kg, max 80x60x60 cm)")
 
-    # def back_button_action(self, event):
-    #     print("Back Button Clicked")
-    #     self.root.show_previous_page()  # Replace this with your method to go back
+        # Back Button
+        back_button = tk.Button(self, text="Back", font="Helvetica", command=self.back_button_click, bg='#333', fg='white')
+        back_button.place(x=40, y=420)  # Positioning the back button
 
-    def academic_materials_action(self):
-        print("Academic Materials Button Clicked")
-        self.root.memory['dropoff']['item_category'] = 'Academic Material'
-        self.root.show_drop_off_compartment_page()  
+        # Track currently visible hover text box
+        self.current_hover_text_box = None
 
-    def packages_action(self):
-        print("Packages Button Clicked")  
-        self.root.memory['dropoff']['item_category'] = 'Packages'
-        self.root.show_drop_off_compartment_page() 
+    def extra_small_size_action(self):
+        print("Extra Small Size Selected")
+        self.root.show_drop_off_compartment_page()
 
-    def personal_belongings_action(self):
-        print("Personal Belongings Button Clicked")  
-        self.root.memory['dropoff']['item_category'] = 'Personal Belongings'
-        self.root.show_drop_off_compartment_page() 
+    def small_size_action(self):
+        print("Small Size Selected")
+        self.root.show_drop_off_compartment_page()
 
-    def electronic_devices_action(self):
-        print("Electronic Devices Button Clicked")  
-        self.root.memory['dropoff']['item_category'] = 'Electronic Devices'
-        self.root.show_drop_off_compartment_page() 
+    def medium_size_action(self):
+        print("Medium Size Selected")
+        self.root.show_drop_off_compartment_page()
 
-    def other_category_action(self):
-        # Open a new window asking for specifics
-        self.open_other_category_window()
+    def large_size_action(self):
+        print("Large Size Selected")
+        self.root.show_drop_off_compartment_page()
 
-    def open_other_category_window(self):
-        # Create a pop-up window
-        self.new_window = tk.Toplevel(self.root)
-        self.new_window.geometry("400x200")
-        self.new_window.title("Specify Other Item")
-        
-        # Label asking for input
-        label = tk.Label(self.new_window, text="Please specify the item:", font=("Helvetica", 14))
-        label.pack(pady=20)
+    def extra_large_action(self):
+        print("Extra Large Size Selected")
+        self.root.show_drop_off_compartment_page()
 
-        # Entry field for user input
-        self.other_item_entry = tk.Entry(self.new_window, font=("Helvetica", 12))
-        self.other_item_entry.pack(pady=10)
-
-        # Confirm and Back buttons
-        confirm_button = tk.Button(self.new_window, text="Confirm", font=("Helvetica", 12),
-                                   command=self.confirm_other_item)
-        confirm_button.pack(side='left', padx=40, pady=20)
-
-        back_button = tk.Button(self.new_window, text="Back", font=("Helvetica", 12),
-                                command=self.new_window.destroy)
-        back_button.pack(side='right', padx=40, pady=20)
-
-    def confirm_other_item(self):
-        # Retrieve the entered item
-        other_item = self.other_item_entry.get()
-
-        if other_item:
-            print(f"Other Category Item: {other_item}")
-            self.root.memory['dropoff']['item_category'] = other_item
-            self.new_window.destroy()  # Close the window after confirming
-            self.root.show_drop_off_compartment_page()  # Continue to the next step
-        else:
-            # Prompt the user to enter a valid item if empty
-            error_label = tk.Label(self.new_window, text="Please enter an item.", fg="red", font=("Helvetica", 12))
-            error_label.pack()
-
-    def create_button_with_icon(self, x, y, text, icon_image, command, bg_color, text_color):
-        # Creating the button with rounded rectangle
+    def create_button_with_icon(self, x, y, text, icon_image, command, bg_color, text_color, hover_text):
         button_bg = create_rounded_rectangle(self, x, y, x + 180, y + 70, radius=15, fill=bg_color, outline='#CCCCCC', width=2)
-        
-        # Positioning icon and text
+
         icon_x = x + 35
         icon_y = y + 35
         text_x = icon_x + 70
         text_y = icon_y
 
-        # Create icon and text
         icon = self.create_image(icon_x, icon_y, image=icon_image)
         button_text = self.create_text(text_x, text_y, text=text, font=("Helvetica", 12, "bold"), fill=text_color)
-        
-        # Button hover effect and click functionality
+
+        hover_text_box = tk.Label(self, text=hover_text, font=("Helvetica", 10), bg="#f0f0f0", fg="#333333", bd=1, relief="solid", width=30, height=2)
+        hover_text_box.place_forget()  
+     
         def on_click(event=None):
-            print(f"Button clicked: {text}")  
+            print(f"Button clicked: {text}")
+            if self.current_hover_text_box:
+                self.current_hover_text_box.place_forget()
+
+            hover_text_box.place(x=x + 10, y=y + 90)  
+
+            self.current_hover_text_box = hover_text_box
             command()
 
-        # Bind click and hover effects
         for item in (button_bg, icon, button_text):
             self.tag_bind(item, '<Button-1>', on_click)
-            self.tag_bind(item, '<Enter>', lambda e, bg=button_bg: self.itemconfig(bg, fill='#D5E4F3'))
-            self.tag_bind(item, '<Leave>', lambda e, bg=button_bg: self.itemconfig(bg, fill=bg_color))
 
+    def back_button_click(self):
+        """Function to go back to the drop-off input details page."""
+        self.root.show_drop_off_input_details_page()  # Navigate back to the previous page

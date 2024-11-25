@@ -23,7 +23,7 @@ class DropOffFinished(tk.Canvas):
         rect_y1 = drop_off_finished_y - rect_height // 2 - move_up_amount
         rect_x2 = drop_off_finished_x + rect_width // 2
         rect_y2 = drop_off_finished_y + rect_height // 2 - move_up_amount
-
+        
         # Create the rectangle
         custom_color = "#2C2C2C"
         self.rect = self.create_rectangle(rect_x1, rect_y1, rect_x2, rect_y2, fill=custom_color, outline="black")
@@ -34,8 +34,12 @@ class DropOffFinished(tk.Canvas):
         label = tk.Label(self, text="Click the button to lock the compartment.", font=("Arial", 14, 'italic'), bg="gray", fg=custom_color)
         label.place(x=220, y=385)
 
-        self.tag_bind(self.rect, "<Button-1>", self.on_click)
+        # Bind the click event to the image
         self.tag_bind(self.drop_off_finished_image, "<Button-1>", self.on_click)
+
+        # Create a back button and bind it to back_button method
+        back_button = tk.Button(self, text="Cancel", font=("Segoe UI", 16), fg='white', bg='#333', command=self.back_button)
+        back_button.place(x=50, y=420)
 
     def on_click(self, event=None):
         compartment = self.root.memory['dropoff']['compartment']
@@ -49,7 +53,6 @@ class DropOffFinished(tk.Canvas):
             self.root.machine.compartments[str(compartment)].turn_off_relay()
         print("Compartment relay turned off")
 
-
         otp = self.root.machine.dropoff_item(str(compartment), self.root.memory['dropoff'])
         msg = f'Hello {receiver}, \n\nYou have a new item from {sender} securely stored in compartment {compartment} of UniLOCK, the smart locker system at Marinduque State University. Please use the following One-Time Password (OTP) to access your item: {otp}. \n\nFor further assistance, you may contact the sender directly at {sender_contact}. \n\nThank you for using UniLOCK. \n\nBest regards, UniLOCK Team'
         self.root.machine.send_message(receiver_contact, msg)
@@ -57,5 +60,24 @@ class DropOffFinished(tk.Canvas):
         #self.root.machine.reset_memory()
         messagebox.showinfo("Thank you!", "Code will be sent to the receiver.")
 
-        # Show the next page
         self.root.show_welcome_page()
+
+    def back_button(self):
+        compartment = self.root.memory['dropoff'].get('compartment')
+        
+        if compartment is None:
+            messagebox.showerror("Error", "No compartment found for this drop-off.")
+            return
+
+        if messagebox.askyesno("Cancel Transaction", "Are you sure you want to cancel this transaction?"):
+            try:
+                if not self.root.debug:
+                    self.root.machine.compartments[str(compartment)].turn_off_relay()
+                    print(f"Relay turned off for compartment {compartment}")  
+
+                # self.root.machine.reset_memory()  
+
+                self.root.show_drop_off_compartment_page()
+
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to turn on relay for compartment {compartment}. Error: {str(e)}")
