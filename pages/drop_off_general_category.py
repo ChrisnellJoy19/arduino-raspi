@@ -1,6 +1,5 @@
 import tkinter as tk
-from PIL import Image, ImageTk
-
+from tkinter import scrolledtext
 
 def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
     points = [x1 + radius, y1,
@@ -25,7 +24,6 @@ def create_rounded_rectangle(canvas, x1, y1, x2, y2, radius=25, **kwargs):
               x1, y1]
     return canvas.create_polygon(points, **kwargs, smooth=True)
 
-
 class DropoffGeneralCategoryForm(tk.Canvas):
     def __init__(self, root, **kwargs):
         super().__init__(root, width=800, height=480, bg='#f0f0f0', highlightthickness=0, **kwargs)
@@ -39,7 +37,6 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         title_frame = tk.Frame(self, bg='#333', width=800, height=60)
         title_frame.place(x=0, y=0)
 
-        # Title text and icon
         title_label = tk.Label(title_frame, text="DROP-OFF", font=("Georgia", 24, 'bold'), fg='white', bg='#333')
         title_label.place(x=350, y=15)
         title_icon = tk.Label(title_frame, image=self.root.dropoff_icon, bg='#333')
@@ -47,41 +44,138 @@ class DropoffGeneralCategoryForm(tk.Canvas):
 
         self.create_text(410, 140, text="Select Item Size:", font=("Helvetica", 18, 'bold'), fill="#333333")
 
-        # Create Buttons with Click to Show Specifications
-        self.create_button_with_icon(100, 180, "Extra Small", root.personal_belongings_icon, self.extra_small_size_action, '#FFFFFF', '#333333', "Small size (up to 10kg, max 40x30x30 cm)")
-        self.create_button_with_icon(320, 180, "Small", root.personal_belongings_icon, self.small_size_action, '#FFFFFF', '#333333', "Small size (up to 10kg, max 40x30x30 cm)")
-        self.create_button_with_icon(540, 180, "Medium", root.electronic_devices_icon, self.medium_size_action, '#FFFFFF', '#333333', "Medium size (up to 20kg, max 50x40x40 cm)")
-        self.create_button_with_icon(150, 300, "Large", root.academic_icon, self.large_size_action, '#FFFFFF', '#333333', "Large size (up to 30kg, max 60x50x50 cm)")
-        self.create_button_with_icon(370, 300, "Extra Large", root.packages_icon, self.extra_large_action, '#FFFFFF', '#333333', "Extra Large (up to 50kg, max 80x60x60 cm)")
+        # Create buttons for different sizes
+        self.create_button_with_icon(100, 180, "Extra Small", root.personal_belongings_icon, self.extra_small_size_action, '#FFFFFF', '#333333')
+        self.create_button_with_icon(320, 180, "Small", root.personal_belongings_icon, self.small_size_action, '#FFFFFF', '#333333')
+        self.create_button_with_icon(540, 180, "Medium", root.electronic_devices_icon, self.medium_size_action, '#FFFFFF', '#333333')
+        self.create_button_with_icon(100, 300, "Large", root.academic_icon, self.large_size_action, '#FFFFFF', '#333333')
+        self.create_button_with_icon(320, 300, "Extra Large", root.packages_icon, self.extra_large_action, '#FFFFFF', '#333333')
 
-        # Back Button
-        back_button = tk.Button(self, text="Back", font="Helvetica", command=self.back_button_click, bg='#333', fg='white')
-        back_button.place(x=40, y=420)  # Positioning the back button
+        # Create a ScrolledText widget to display the description (initially hidden)
+        self.description_text_box = scrolledtext.ScrolledText(self, width=60, height=8, wrap=tk.WORD, font=("Helvetica", 12))
+        self.description_text_box.place(x=100, y=180)
+        self.description_text_box.config(state=tk.DISABLED)  # Initially set as disabled to prevent editing
+        self.description_text_box.place_forget()  # Hide it initially
 
-        # Track currently visible hover text box
-        self.current_hover_text_box = None
+        # Create a "Select" button (initially hidden)
+        self.select_button = tk.Button(self, text="Select", font=("Helvetica", 14), command=self.select_button_click)
+        self.select_button.place(x=650, y=380)
+        self.select_button.place_forget()  # Hide it initially
+
+        # Create an "X" button at the top-right of the description box (initially hidden)
+        self.close_button = tk.Button(self, text="X", font=("Helvetica", 14), command=self.close_button_click, fg="white", bg="red", width=2, height=1)
+        self.close_button.place(x=700, y=180)  # Positioned at the top-right of the description box
+        self.close_button.place_forget()  # Hide it initially
+
+        back_button = tk.Button(self, text="Cancel", font=("Segoe UI", 16), fg='white', bg='#333', command=self.back_button)
+        back_button.place(x=50, y=420)
+
+    def update_description(self, description):
+        """Update the description text in the scrollable text box when a size is selected."""
+        self.description_text_box.config(state=tk.NORMAL)  # Enable editing (temporarily)
+        self.description_text_box.delete(1.0, tk.END)  # Clear previous text
+        self.description_text_box.insert(tk.END, description)  # Insert the new description
+        self.description_text_box.config(state=tk.DISABLED)  # Disable editing again
+
+    def show_description_box(self):
+        """Show the description box when a size is selected."""
+        self.description_text_box.place(x=100, y=180)  # Make the description box visible
+        self.description_text_box.lift()  # Ensure the text box is on top of other elements
+        self.select_button.place(x=650, y=380)  # Show the Select button
+        self.close_button.place(x=720, y=180)  # Show the "X" close button at the top-right of the description box
+
+    def hide_description_box(self):
+        """Hide the description box."""
+        self.description_text_box.place_forget()  # Hide the description box
+        self.select_button.place_forget()  # Hide the Select button
+        self.close_button.place_forget()  # Hide the "X" button
 
     def extra_small_size_action(self):
         print("Extra Small Size Selected")
-        self.root.show_drop_off_compartment_page()
+        description = """
+        COMPARTMENT 5 & 6
+        • Documents 
+        • Laptop
+        • Books/Notebooks
+        • Clothes
+        • Others fit in (size of the compartment here)
+        """
+        self.update_description(description)
+        self.show_description_box()
 
     def small_size_action(self):
         print("Small Size Selected")
-        self.root.show_drop_off_compartment_page()
+        description = """
+        COMPARTMENT 3 & 4
+        • Small Parcels
+        • Small Boxes
+        • Cup-sized items
+        • Small Electronics (e.g., charger, accessories)
+        • Clothes and Shoes
+        • Others fit in (size of the compartment here)
+        """
+        self.update_description(description)
+        self.show_description_box()
 
     def medium_size_action(self):
         print("Medium Size Selected")
-        self.root.show_drop_off_compartment_page()
+        description = """
+        COMPARTMENT 1 & 2
+        • Medium-sized Parcels
+        • Medium-sized Boxes
+        • Books
+        • Small Appliances (e.g., toaster, blender)
+        • Electronics (e.g., small speaker, camera)
+        • Clothes
+        • Others fit in (size of the compartment here)
+        """
+        self.update_description(description)
+        self.show_description_box()
 
     def large_size_action(self):
         print("Large Size Selected")
-        self.root.show_drop_off_compartment_page()
+        description = """
+        COMPARTMENT 7 & 8
+        • Large Parcels 
+        • Boxes
+        • Large Bags (e.g., duffel bags, gym bags)
+        
+        """
+        self.update_description(description)
+        self.show_description_box()
 
     def extra_large_action(self):
         print("Extra Large Size Selected")
-        self.root.show_drop_off_compartment_page()
+        description = """
+        COMPARTMENT 9
+        • Luggage (e.g., suitcases, travel bags)
+        • Larger Electronics (e.g. printers)
+        • Large Bags (e.g., duffel bags, gym bags)
+        • Others fit in (size of the compartment here)
+        """
+        self.update_description(description)
+        self.show_description_box()
 
-    def create_button_with_icon(self, x, y, text, icon_image, command, bg_color, text_color, hover_text):
+    def select_button_click(self):
+        """Handler for the Select button click."""
+        print("Select button clicked")
+        self.hide_description_box()  # Hide description box and button
+        self.root.show_drop_off_compartment_page()  # Proceed to next page
+
+    def close_button_click(self):
+        """Handler for the 'X' button click to close the description box."""
+        print("Close (X) button clicked")
+        self.hide_description_box()  # Hide the description box and Select button
+        # Optionally reset any selected size or return to the size selection
+        # (or just show the size selection options again)
+        self.show_size_selection()
+
+    def show_size_selection(self):
+        """Optionally show size selection options again if the user closes the description box."""
+        # This method is just a placeholder, you can reset state or re-enable size buttons here
+        pass
+
+    def create_button_with_icon(self, x, y, text, icon_image, command, bg_color, text_color):
         button_bg = create_rounded_rectangle(self, x, y, x + 180, y + 70, radius=15, fill=bg_color, outline='#CCCCCC', width=2)
 
         icon_x = x + 35
@@ -89,25 +183,20 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         text_x = icon_x + 70
         text_y = icon_y
 
+        # Create icon and text
         icon = self.create_image(icon_x, icon_y, image=icon_image)
         button_text = self.create_text(text_x, text_y, text=text, font=("Helvetica", 12, "bold"), fill=text_color)
 
-        hover_text_box = tk.Label(self, text=hover_text, font=("Helvetica", 10), bg="#f0f0f0", fg="#333333", bd=1, relief="solid", width=30, height=2)
-        hover_text_box.place_forget()  
-     
+        # Button hover effect and click functionality
         def on_click(event=None):
             print(f"Button clicked: {text}")
-            if self.current_hover_text_box:
-                self.current_hover_text_box.place_forget()
-
-            hover_text_box.place(x=x + 10, y=y + 90)  
-
-            self.current_hover_text_box = hover_text_box
             command()
 
+        # Bind click and hover effects
         for item in (button_bg, icon, button_text):
             self.tag_bind(item, '<Button-1>', on_click)
+            self.tag_bind(item, '<Enter>', lambda e, bg=button_bg: self.itemconfig(bg, fill='#D5E4F3'))
+            self.tag_bind(item, '<Leave>', lambda e, bg=button_bg: self.itemconfig(bg, fill=bg_color))
 
     def back_button_click(self):
-        """Function to go back to the drop-off input details page."""
-        self.root.show_drop_off_input_details_page()  # Navigate back to the previous page
+        self.root.show_drop_off_input_details_page()
