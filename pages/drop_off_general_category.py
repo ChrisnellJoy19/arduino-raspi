@@ -59,15 +59,16 @@ class DropoffGeneralCategoryForm(tk.Canvas):
 
         # Create a "Select" button (initially hidden)
         self.select_button = tk.Button(self, text="Select", font=("Helvetica", 14), command=self.select_button_click)
-        self.select_button.place(x=650, y=380)
+        self.select_button.place(x=600, y=350)
         self.select_button.place_forget()  # Hide it initially
 
         # Create an "X" button at the top-right of the description box (initially hidden)
         self.close_button = tk.Button(self, text="X", font=("Helvetica", 14), command=self.close_button_click, fg="white", bg="red", width=2, height=1)
-        self.close_button.place(x=700, y=180)  # Positioned at the top-right of the description box
+        self.close_button.place(x=650, y=150)  # Positioned at the top-right of the description box
         self.close_button.place_forget()  # Hide it initially
 
-        back_button = tk.Button(self, text="Cancel", font=("Segoe UI", 16), fg='white', bg='#333', command=self.back_button)
+        # Corrected back button functionality
+        back_button = tk.Button(self, text="Cancel", font=("Segoe UI", 16), fg='white', bg='#333', command=self.back_button_click)
         back_button.place(x=50, y=420)
 
     def update_description(self, description):
@@ -183,7 +184,7 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         text_x = icon_x + 70
         text_y = icon_y
 
-        # Create icon and text
+        
         icon = self.create_image(icon_x, icon_y, image=icon_image)
         button_text = self.create_text(text_x, text_y, text=text, font=("Helvetica", 12, "bold"), fill=text_color)
 
@@ -199,4 +200,4 @@ class DropoffGeneralCategoryForm(tk.Canvas):
             self.tag_bind(item, '<Leave>', lambda e, bg=button_bg: self.itemconfig(bg, fill=bg_color))
 
     def back_button_click(self):
-        self.root.show_drop_off_input_details_page()
+        self.root.show_drop_off_input_details_page()  # This method will go back to the previous page

@@ -33,7 +33,7 @@ class FoundDropoffForm(tk.Canvas):
             "ID's and Finance": ["Money", "Wallet", "Student ID Card", "Driver's License", "Credit/Debit Card", "Passport", "Other/s"],
             "Clothing & Accessories": ["Headwear", "Eyewear", "Watches", "Necklace or Bracelets", "Umbrellas", "Other/s"],
             "Bags and Containers": ["Backpack", "Handbag", "Tote", "Other/s"],
-            "Health & Personal Care": ["Toiletries", "Makeup", "First Aid Kit" "Other/s"],
+            "Health & Personal Care": ["Toiletries", "Makeup", "First Aid Kit", "Other/s"],
         }
 
         self.subcategories = {
@@ -60,8 +60,6 @@ class FoundDropoffForm(tk.Canvas):
             "Toiletries": ["Small", "Medium", "Large"],
             "Makeup": ["Mascara", "Foundation", "Concealer", "Blush", "Pencil", "Lipstick", "Eye Shadow", "Make-up Set", "Other/s"],
             "First Aid Kit": ["First Aid Box", "Nursing/Medicine Bag", "Other/s"]
-
-        
         }
 
         # Dropdown variables
@@ -89,6 +87,13 @@ class FoundDropoffForm(tk.Canvas):
         self.detail_menu = tk.OptionMenu(form_frame, self.selected_detail, "")
         self.detail_menu.config(width=20)
         self.detail_menu.place(x=300, y=190)
+
+        # Back Button
+        back_button = tk.Button(self, text="Back", font=("Segoe UI", 16), fg='white', bg='#333', command=self.back_button_click)
+        back_button.place(x=30, y=420)
+
+    def back_button_click(self):
+        self.root.show_lostfound_input_details_page()  # Assuming this method shows the previous page
 
     def update_subcategories(self, selected_category):
         subcategories = self.categories.get(selected_category, [])
