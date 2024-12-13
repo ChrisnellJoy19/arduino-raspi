@@ -52,15 +52,15 @@ class Machine:
         )
 
         self.logger.info('Intializing machine')
-        self.available_commands = [0,1,2,3,4,
-                                   5,6,7,8,9,
-                                   10,11,12,13,14,
-                                   15,16,17,18,19,
-                                   20,21,22,23,24,
-                                   25,26,27,28,29,
-                                   30,31,32,33,34,
-                                   35,36,37,38,39,
-                                   40,41,42,43,44]  
+        self.available_commands = [0,1,2,3,4,5,
+                                   6,7,8,9,10,11,
+                                   12,13,14,15,16,17,
+                                   18,19,20,21,22,23,
+                                   24,25,26,27,28,29,
+                                   30,31,32,33,34,35,
+                                   36,37,38,39,40,41,
+                                   42,43,44,45,46,47,
+                                   48,49,50,51,52,53]  
         self.arduino = serial.Serial(port, 9600, timeout = 9) 
         if port:
             self.arduino.reset_input_buffer()
@@ -94,87 +94,96 @@ class Machine:
                     'turn_on_relay': 1,
                     'set_color_red': 2,
                     'set_color_green': 3,
-                    'item_detection': 4 
+                    'item_detection': 4,
+                    'turn_off_LED': 5 
                 }
             ),
             '2': compartment.Compartment(
                 machine=self,
                 commands = {
-                    'turn_off_relay': 5,
-                    'turn_on_relay': 6,
-                    'set_color_red': 7,
-                    'set_color_green': 8,
-                    'item_detection': 9 
+                    'turn_off_relay': 6,
+                    'turn_on_relay': 7,
+                    'set_color_red': 8,
+                    'set_color_green': 9,
+                    'item_detection': 10,
+                    'turn_off_LED': 11  
                 }
             ),
             '3': compartment.Compartment(
                 machine=self,
                 commands = {
-                    'turn_off_relay': 10,
-                    'turn_on_relay': 11,
-                    'set_color_red': 12,
-                    'set_color_green': 13,
-                    'item_detection': 14 
+                    'turn_off_relay': 12,
+                    'turn_on_relay': 13,
+                    'set_color_red': 14,
+                    'set_color_green': 15,
+                    'item_detection': 16,
+                    'turn_off_LED': 17  
                 }
             ),
             '4': compartment.Compartment(
                 machine=self,
                 commands = {
-                    'turn_off_relay': 15,
-                    'turn_on_relay': 16,
-                    'set_color_red': 17,
-                    'set_color_green': 18,
-                    'item_detection': 19 
+                    'turn_off_relay': 18,
+                    'turn_on_relay': 19,
+                    'set_color_red': 20,
+                    'set_color_green': 21,
+                    'item_detection': 22,
+                    'turn_off_LED': 23  
                 }
             ),
             '5': compartment.Compartment(
                 machine=self,
                 commands = {
-                    'turn_off_relay': 20,
-                    'turn_on_relay': 21,
-                    'set_color_red': 22,
-                    'set_color_green': 23,
-                    'item_detection': 24 
+                    'turn_off_relay': 24,
+                    'turn_on_relay': 25,
+                    'set_color_red': 26,
+                    'set_color_green': 27,
+                    'item_detection': 28,
+                    'turn_off_LED': 29 
                 }
             ),
             '6': compartment.Compartment(
-                machine=self,
-                commands = {
-                    'turn_off_relay': 25,
-                    'turn_on_relay': 26,
-                    'set_color_red': 27,
-                    'set_color_green': 28,
-                    'item_detection': 29 
-                }
-            ),
-            '7': compartment.Compartment(
                 machine=self,
                 commands = {
                     'turn_off_relay': 30,
                     'turn_on_relay': 31,
                     'set_color_red': 32,
                     'set_color_green': 33,
-                    'item_detection': 34 
+                    'item_detection': 34,
+                    'turn_off_LED': 35 
+                }
+            ),
+            '7': compartment.Compartment(
+                machine=self,
+                commands = {
+                    'turn_off_relay': 36,
+                    'turn_on_relay': 37,
+                    'set_color_red': 38,
+                    'set_color_green': 39,
+                    'item_detection': 40,
+                    'turn_off_LED': 41 
                 }
             ),
             '8': compartment.Compartment(
                 machine=self,
                 commands = {
-                    'turn_off_relay': 35,
-                    'turn_on_relay': 36,
-                    'set_color_red': 37,
-                    'set_color_green': 38,
-                    'item_detection': 39 
+                    'turn_off_relay': 42,
+                    'turn_on_relay': 43,
+                    'set_color_red': 44,
+                    'set_color_green': 45,
+                    'item_detection': 46,
+                    'turn_off_LED': 47 
                 }
             ),
             '9': compartment.Compartment(
                 machine=self,
                 commands = {
-                    'turn_off_relay': 40,
-                    'turn_on_relay': 41,
-                    'set_color_red': 42,
-                    'set_color_green': 43,
-                    'item_detection': 44 
+                    'turn_off_relay': 48,
+                    'turn_on_relay': 49,
+                    'set_color_red': 50,
+                    'set_color_green': 51,
+                    'item_detection': 52,
+                    'turn_off_LED': 53 
                 }
             ),
         }
@@ -567,7 +576,7 @@ class Machine:
         transaction_collection = self.database.collection('transactions')
         while True:
 
-            # print(self.reminder_time)
+            # print(self.reminder_time)ssssssssssssssssssss
             # print(self.last_reminder_time)
             
             if self.reminder_time is None or self.last_reminder_date is None:

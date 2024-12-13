@@ -14,7 +14,8 @@ class Compartment:
             'turn_on_relay': 1,
             'set_color_red': 2,
             'set_color_green': 3,
-            'item_detection': 4 
+            'item_detection': 4,
+            'turn_off_LED': 5,
         }
         """
         self.machine = machine
@@ -23,6 +24,7 @@ class Compartment:
         self.set_color_red_cmd = commands.pop('set_color_red')
         self.set_color_green_cmd = commands.pop('set_color_green')
         self.item_detection_cmd = commands.pop('item_detection')
+        self.turn_off_LED_cmd = commands.pop('turn_off_LED')
 
     def turn_off_relay(self):
         """
@@ -57,3 +59,9 @@ class Compartment:
         while not response:
             response = self.machine.get_arduino_response()
         return response
+    
+    def turn_off_LED(self):
+        """
+        Turn off red and green LED
+        """
+        self.machine.send_command(self.turn_off_LED_cmd)

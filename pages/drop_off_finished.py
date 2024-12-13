@@ -73,6 +73,7 @@ class DropOffFinished(tk.Canvas):
             try:
                 if not self.root.debug:
                     self.root.machine.compartments[str(compartment)].turn_off_relay()
+                    self.root.machine.compartments[str(compartment)].set_color_green()
                     print(f"Relay turned off for compartment {compartment}")  
 
                 # self.root.machine.reset_memory()  

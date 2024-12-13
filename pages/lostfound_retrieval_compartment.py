@@ -103,6 +103,7 @@ class LostFoundRetrievalCompartment(tk.Canvas):
           
                 if not self.root.debug:
                     self.root.machine.compartments[str(compartment)].turn_on_relay()
+                    self.root.machine.compartments[str(compartment)].turn_off_LED()
                 print("Compartment relay turned on")
 
                 self.root.memory['lost_and_found_retrieve']['receiver'] = self.root.memory['lost_and_found']['name']

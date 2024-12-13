@@ -39,11 +39,11 @@ const int greenPin6 = 21;
 const int redPin7   = 44; 
 const int greenPin7 = 46;
 
-const int redPin8   = 40; 
-const int greenPin8 = 42; 
+const int redPin8   = 22; 
+const int greenPin8 = 23; 
 
-const int redPin9   = 22;
-const int greenPin9 = 23;
+const int redPin9   = 40;
+const int greenPin9 = 42;
 
 int currentCommand = -1;
 
@@ -102,11 +102,11 @@ void loop() {
 
   // Compartment 1 Commands
   else if(currentCommand == 0) {
-    digitalWrite(relayPin1, HIGH);
+    digitalWrite(relayPin1, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 1) {
-    digitalWrite(relayPin1, LOW);
+    digitalWrite(relayPin1, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 2) {
@@ -121,180 +121,216 @@ void loop() {
     detectItem1();
     currentCommand = -1;
   }
-
-  // Compartment 2 commands
-  else if(currentCommand == 5) {
-    digitalWrite(relayPin2, HIGH);
+  else if(currentCommand == 5){
+    offLED1();
     currentCommand = -1;
   }
+
+  // Compartment 2 commands
   else if(currentCommand == 6) {
     digitalWrite(relayPin2, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 7) {
-    setColor2(255, 0, 0);
+    digitalWrite(relayPin2, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 8) {
-    setColor2(0, 255, 0);
+    setColor2(255, 0, 0);
     currentCommand = -1;
   }
   else if(currentCommand == 9) {
+    setColor2(0, 255, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 10) {
     detectItem2();
+    currentCommand = -1;
+  }
+  else if(currentCommand == 11){
+    offLED2();
     currentCommand = -1;
   }
 
   // Compartment 3 commands
-  else if(currentCommand == 10) {
-    digitalWrite(relayPin3, HIGH);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 11) {
+  else if(currentCommand == 12) {
     digitalWrite(relayPin3, LOW);
     currentCommand = -1;
   }
-  else if(currentCommand == 12) {
-    setColor3(255, 0, 0);
-    currentCommand = -1;
-  }
   else if(currentCommand == 13) {
-    setColor3(0, 255, 0);
+    digitalWrite(relayPin3, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 14) {
-    detectItem3();
+    setColor3(255, 0, 0);
     currentCommand = -1;
   }
-
-  // Compartment 4 commands
   else if(currentCommand == 15) {
-    digitalWrite(relayPin4, HIGH);
+    setColor3(0, 255, 0);
     currentCommand = -1;
   }
   else if(currentCommand == 16) {
+    detectItem3();
+    currentCommand = -1;
+  }
+  else if(currentCommand == 17){
+    offLED3();
+    currentCommand = -1;
+  }
+  // Compartment 4 commands
+  else if(currentCommand == 18) {
     digitalWrite(relayPin4, LOW);
     currentCommand = -1;
   }
-  else if(currentCommand == 17) {
+  else if(currentCommand == 19) {
+    digitalWrite(relayPin4, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 20) {
     setColor4(255, 0, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 18) {
+  else if(currentCommand == 21) {
     setColor4(0, 255, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 19) {
+  else if(currentCommand == 22) {
     detectItem4();
+    currentCommand = -1;
+  }
+  else if(currentCommand == 23){
+    offLED4();
     currentCommand = -1;
   }
 
   // Compartment 5 commands
-  else if(currentCommand == 20) {
-    digitalWrite(relayPin5, HIGH);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 21) {
+  else if(currentCommand == 24) {
     digitalWrite(relayPin5, LOW);
     currentCommand = -1;
   }
-  else if(currentCommand == 22) {
+  else if(currentCommand == 25) {
+    digitalWrite(relayPin5, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 26) {
     setColor5(255, 0, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 23) {
+  else if(currentCommand == 27) {
     setColor5(0, 255, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 24) {
+  else if(currentCommand == 28) {
     detectItem5();
+    currentCommand = -1;
+  }
+    else if(currentCommand == 29){
+    offLED5();
     currentCommand = -1;
   }
 
   // Compartment 6 commands
-  else if(currentCommand == 25) {
-    digitalWrite(relayPin6, HIGH);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 26) {
+  else if(currentCommand == 30) {
     digitalWrite(relayPin6, LOW);
     currentCommand = -1;
   }
-  else if(currentCommand == 27) {
+  else if(currentCommand == 31) {
+    digitalWrite(relayPin6, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 32) {
     setColor6(255, 0, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 28) {
+  else if(currentCommand == 33) {
     setColor6(0, 255, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 29) {
+  else if(currentCommand == 34) {
     detectItem6();
+    currentCommand = -1;
+  }
+    else if(currentCommand == 35){
+    offLED6();
     currentCommand = -1;
   }
 
   // Compartment 7 commands
-  else if(currentCommand == 30) {
-    digitalWrite(relayPin7, HIGH);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 31) {
+  else if(currentCommand == 36) {
     digitalWrite(relayPin7, LOW);
     currentCommand = -1;
   }
-  else if(currentCommand == 32) {
+  else if(currentCommand == 37) {
+    digitalWrite(relayPin7, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 38) {
     setColor7(255, 0, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 33) {
+  else if(currentCommand == 39) {
     setColor7(0, 255, 0);
     currentCommand = -1;
   }
-  else if(currentCommand == 34) {
+  else if(currentCommand == 40) {
     detectItem7();
+    currentCommand = -1;
+  }
+  else if(currentCommand == 41){
+    offLED7();
     currentCommand = -1;
   }
 
   // Compartment 8 commands
-  else if(currentCommand == 35) {
-    digitalWrite(relayPin8, HIGH);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 36) {
+  else if(currentCommand == 42) {
     digitalWrite(relayPin8, LOW);
     currentCommand = -1;
   }
-  else if(currentCommand == 37) {
-    setColor8(255, 0, 0);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 38) {
-    setColor8(0, 255, 0);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 39) {
-    detectItem8();
-    currentCommand = -1;
-  }
-
-  // Compartment 9 commands
-  else if(currentCommand == 40) {
-    digitalWrite(relayPin9, HIGH);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 41) {
-    digitalWrite(relayPin9, LOW);
-    currentCommand = -1;
-  }
-  else if(currentCommand == 42) {
-    setColor9(255, 0, 0);
-    currentCommand = -1;
-  }
   else if(currentCommand == 43) {
-    setColor9(0, 255, 0);
+    digitalWrite(relayPin8, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 44) {
+    setColor8(255, 0, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 45) {
+    setColor8(0, 255, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 46) {
+    detectItem8();
+    currentCommand = -1;
+  }
+    else if(currentCommand == 47){
+    offLED8();
+    currentCommand = -1;
+  }
+  
+
+  // Compartment 9 commands
+  else if(currentCommand == 48) {
+    digitalWrite(relayPin9, LOW);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 49) {
+    digitalWrite(relayPin9, HIGH);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 50) {
+    setColor9(255, 0, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 51) {
+    setColor9(0, 255, 0);
+    currentCommand = -1;
+  }
+  else if(currentCommand == 52) {
     detectItem9();
+    currentCommand = -1;
+  }
+  else if(currentCommand == 53){
+    offLED9();
     currentCommand = -1;
   }
 }
@@ -446,4 +482,49 @@ void detectItem9() {
   else{
     Serial.println("0");
   }
+}
+
+void offLED1(){
+  digitalWrite(redPin1, LOW);
+  digitalWrite(greenPin1, LOW);
+}
+
+void offLED2(){
+  digitalWrite(redPin2, LOW);
+  digitalWrite(greenPin2, LOW);
+}
+
+void offLED3(){
+  digitalWrite(redPin3, LOW);
+  digitalWrite(greenPin3, LOW);
+}
+
+void offLED4(){
+  digitalWrite(redPin4, LOW);
+  digitalWrite(greenPin4, LOW);
+}
+
+void offLED5(){
+  digitalWrite(redPin5, LOW);
+  digitalWrite(greenPin5, LOW);
+}
+
+void offLED6(){
+  digitalWrite(redPin6, LOW);
+  digitalWrite(greenPin6, LOW);
+}
+
+void offLED7(){
+  digitalWrite(redPin7, LOW);
+  digitalWrite(greenPin7, LOW);
+}
+
+void offLED8(){
+  digitalWrite(redPin8, LOW);
+  digitalWrite(greenPin8, LOW);
+}
+
+void offLED9(){
+  digitalWrite(redPin9, LOW);
+  digitalWrite(greenPin9, LOW);
 }
