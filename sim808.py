@@ -10,7 +10,7 @@ class Sim808:
     Parameters:
     port (str) : Serial port of SIM808 module 
     '''
-
+ 
     def __init__(self, port):
         '''
         Initialize a Sim808 object for communicating with a SIM808 module
@@ -18,13 +18,15 @@ class Sim808:
         Parameters:
         port (str) : Serial port of SIM808 module 
         '''
-        self.sim808 = serial.Serial(port, 115200, timeout=1)
+       
+        self.sim808 = serial.Serial(port, 115200, timeout=5)
         self.initialize()
 
     def initialize(self):
         '''
         Check if SIM808 exists and functioning
         '''
+        self.sim808.reset_input_buffer()
         self.send_command('AT\r\n')
         response = self.read_response()
         time.sleep(5)
@@ -41,19 +43,24 @@ class Sim808:
         Returns:
         str : SIM808 response
         '''
-        response = ''
+        response = b''
         while(self.sim808.inWaiting()):
             bit = self.sim808.read()
-            response = response + bit.decode()
-        return response
- 
+            response += bit
+        
+        # Try decoding with UTF-8, ignoring errors for non-decodable bytes
+        try:
+            return response.decode('utf-8')
+        except UnicodeDecodeError:
+            return response.decode('utf-8', errors='ignore')  # Skip invalid characters
+
     def send_command(self, command: str, timeout: float = 1):
         '''
         Send a command to SIM808 Serial COM
 
         Parameters:
         command (str) : Command to send
-        timeout (float) : Timeout allows module to recieve command in full
+        timeout (float) : Timeout allows module to receive command in full
         '''
         self.sim808.write(command.encode())
         time.sleep(timeout)

@@ -54,6 +54,8 @@ class ProceedDropOff(tk.Canvas):
                     print("No item detected.")
                     retry = messagebox.askretrycancel("Error", "No item detected. Try again?")
                     if not retry:
+                        self.root.machine.compartments[str(compartment)].turn_off_relay()
+                        self.root.machine.compartments[str(compartment)].set_color_green()
                         print("User canceled item detection.")
                         self.root.show_welcome_page()
                         break

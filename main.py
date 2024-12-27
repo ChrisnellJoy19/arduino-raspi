@@ -15,7 +15,8 @@ compartment1 = Compartment(
         'turn_on_relay': 1,
         'set_color_red': 2,
         'set_color_green': 3,
-        'item_detection': 4 
+        'item_detection': 4, 
+        'turn_off_LED': 5 
     }
 )
 

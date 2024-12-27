@@ -236,5 +236,5 @@ class Root(tk.Tk):
 
 
 if __name__ == '__main__':
-    machine = Machine(port="/dev/ttyACM0", gsm_port=None, debug=True)
+    machine = Machine(port="/dev/ttyACM0", gsm_port="/dev/ttyS0")
     root = Root(machine=machine)

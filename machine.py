@@ -567,7 +567,7 @@ class Machine:
         '''
         data = doc_snapshot[-1].to_dict()
         self.reminder_time = datetime.strptime(data['reminder_time'], '%I:%M %p').time()
-        self.last_reminder_date = datetime.strptime(data['last_reminder'], '%Y-%m-%dT%H:%M:%S.%f').date()
+        self.last_reminder_date = datetime.strptime(data['last_reminder'], '%Y-%m-%d').date()
         #self.last_reminder_date = datetime.strptime(data['last_reminder'], '%Y-%m-%d').date()
         self.logger.info(f'Reminder time has been update to: {self.reminder_time}')
 
@@ -584,6 +584,7 @@ class Machine:
 
             if datetime.now().time() >= self.reminder_time and \
                datetime.now().date() > self.last_reminder_date:
+                self.logger.info('Triggering daily reminder')
                 self.last_reminder_date = datetime.now().date()
                 settings_document.update({'last_reminder': datetime.now().strftime('%Y-%m-%d')})
                 

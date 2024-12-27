@@ -102,11 +102,11 @@ void loop() {
 
   // Compartment 1 Commands
   else if(currentCommand == 0) {
-    digitalWrite(relayPin1, LOW);
+    digitalWrite(relayPin1, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 1) {
-    digitalWrite(relayPin1, HIGH);
+    digitalWrite(relayPin1, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 2) {
@@ -128,11 +128,11 @@ void loop() {
 
   // Compartment 2 commands
   else if(currentCommand == 6) {
-    digitalWrite(relayPin2, LOW);
+    digitalWrite(relayPin2, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 7) {
-    digitalWrite(relayPin2, HIGH);
+    digitalWrite(relayPin2, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 8) {
@@ -154,11 +154,11 @@ void loop() {
 
   // Compartment 3 commands
   else if(currentCommand == 12) {
-    digitalWrite(relayPin3, LOW);
+    digitalWrite(relayPin3, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 13) {
-    digitalWrite(relayPin3, HIGH);
+    digitalWrite(relayPin3, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 14) {
@@ -179,11 +179,11 @@ void loop() {
   }
   // Compartment 4 commands
   else if(currentCommand == 18) {
-    digitalWrite(relayPin4, LOW);
+    digitalWrite(relayPin4, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 19) {
-    digitalWrite(relayPin4, HIGH);
+    digitalWrite(relayPin4, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 20) {
@@ -205,11 +205,11 @@ void loop() {
 
   // Compartment 5 commands
   else if(currentCommand == 24) {
-    digitalWrite(relayPin5, LOW);
+    digitalWrite(relayPin5, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 25) {
-    digitalWrite(relayPin5, HIGH);
+    digitalWrite(relayPin5, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 26) {
@@ -231,11 +231,11 @@ void loop() {
 
   // Compartment 6 commands
   else if(currentCommand == 30) {
-    digitalWrite(relayPin6, LOW);
+    digitalWrite(relayPin6, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 31) {
-    digitalWrite(relayPin6, HIGH);
+    digitalWrite(relayPin6, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 32) {
@@ -257,11 +257,11 @@ void loop() {
 
   // Compartment 7 commands
   else if(currentCommand == 36) {
-    digitalWrite(relayPin7, LOW);
+    digitalWrite(relayPin7, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 37) {
-    digitalWrite(relayPin7, HIGH);
+    digitalWrite(relayPin7, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 38) {
@@ -283,11 +283,11 @@ void loop() {
 
   // Compartment 8 commands
   else if(currentCommand == 42) {
-    digitalWrite(relayPin8, LOW);
+    digitalWrite(relayPin8, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 43) {
-    digitalWrite(relayPin8, HIGH);
+    digitalWrite(relayPin8, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 44) {
@@ -310,11 +310,11 @@ void loop() {
 
   // Compartment 9 commands
   else if(currentCommand == 48) {
-    digitalWrite(relayPin9, LOW);
+    digitalWrite(relayPin9, HIGH);
     currentCommand = -1;
   }
   else if(currentCommand == 49) {
-    digitalWrite(relayPin9, HIGH);
+    digitalWrite(relayPin9, LOW);
     currentCommand = -1;
   }
   else if(currentCommand == 50) {
