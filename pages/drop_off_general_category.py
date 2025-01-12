@@ -99,7 +99,7 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         • Laptop
         • Books/Notebooks
         • Clothes
-        • Others fit in (size of the compartment here)
+        • Others fit in 12" x 9" x 3"
         """
         self.update_description(description)
         self.show_description_box()
@@ -113,7 +113,7 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         • Cup-sized items
         • Small Electronics (e.g., charger, accessories)
         • Clothes and Shoes
-        • Others fit in (size of the compartment here)
+        • Others fit in 5" x 9" x 7"
         """
         self.update_description(description)
         self.show_description_box()
@@ -128,7 +128,7 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         • Small Appliances (e.g., toaster, blender)
         • Electronics (e.g., small speaker, camera)
         • Clothes
-        • Others fit in (size of the compartment here)
+        • Others fit in 12" x 9" x 7"
         """
         self.update_description(description)
         self.show_description_box()
@@ -140,7 +140,7 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         • Large Parcels 
         • Boxes
         • Large Bags (e.g., duffel bags, gym bags)
-        
+        • Others fit in 12" x 9" x 15"
         """
         self.update_description(description)
         self.show_description_box()
@@ -152,7 +152,7 @@ class DropoffGeneralCategoryForm(tk.Canvas):
         • Luggage (e.g., suitcases, travel bags)
         • Larger Electronics (e.g. printers)
         • Large Bags (e.g., duffel bags, gym bags)
-        • Others fit in (size of the compartment here)
+        • Others fit in 24" x 9" x 15"
         """
         self.update_description(description)
         self.show_description_box()

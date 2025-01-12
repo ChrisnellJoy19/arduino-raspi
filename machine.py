@@ -509,56 +509,6 @@ class Machine:
         compartment.updated_at = datetime_now
         compartment_document.set(compartment.model_dump(), merge=True)
         self.logger.info(f'Compartment updated with id: {compartment_id}')
-
-    # def get_compartment_pending_transaction(self, compartment_id: str, details: dict) -> str:
-        
-    #     """
-    #     Emulate a retrieve operation on specific compartment
-
-    #     :param compartment_id: Compartment number (must be a key of self.compartments)
-    #     :param details: Rettrieve detail, see `utils.Transaction` for details
-    #     :return: transaction
-    #     """
-    #     compartment_document = self.database.collection('compartments').document(compartment_id)
-    #     transaction_collection = self.database.collection('transactions')
-    #     #transaction_collection = self.database.orderBy("", "asc")
-
-    #     datetime_now = dateutil.get_datetime_gmt()
-
-    #     compartment = compartment_document.get()
-    #     if not compartment.exists:
-    #         self.logger.warning(f'Compartment {compartment_id} does not exists')
-    #         raise Exception(f'Compartment {compartment_id} does not exists')
-        
-    #     # Get compartment status
-    #     compartment = Compartment(**compartment.to_dict())
-    #     if compartment.status != CompartmentStatus.available:
-    #         self.logger.warning(f'Compartment {compartment_id} is not available', status=compartment.status)
-    #         raise Exception(f'Compartment {compartment_id} is not available')
-        
-    #     # Get pending transaction
-    #     pending_transaction = transaction_collection \
-    #         .where(filter=FieldFilter('compartment_id', '==', compartment_id)) \
-    #         .where(filter=FieldFilter('status', '==', TransactionStatus.pending)) \
-    #         .limit(1) \
-    #         .get()
-        
-    #     if pending_transaction:
-    #         self.logger.warning(f'Compartment {compartment_id} has pending transaction')
-    #         raise Exception(f'Compartment {compartment_id} has pending transaction')
-        
-    #     pending_transaction = pending_transaction[0]
-    #     transaction = Transaction(**pending_transaction.to_dict())
-        
-    #     # transaction = Machine.get_compartment_pending_transaction(
-    #     #     sender = sender,
-    #     #     sender_contact = sender_contact,
-    #     #     receiver = receiver,
-    #     #     receiver_contact = receiver_contact
-    #     #     **details
-    #     # )
-
-    #     return transaction
         
     def _on_settings_change(self, doc_snapshot, changes, read_time):
         '''
@@ -593,6 +543,6 @@ class Machine:
                                                              .get()
                 for transaction_data in pending_transactions:
                     transaction = Transaction(**transaction_data.to_dict())
-                    message = f'You have pending item ({transaction.item_category}) on compartment: {transaction.compartment_id}'
+                    message = f'Hello, this is from UniLOCK Team. You have a pending item on compartment {transaction.compartment_id}'
                     self.send_message(transaction.receiver_contact, message)
                 self.logger.info('Daily reminder fired')

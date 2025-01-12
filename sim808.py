@@ -27,6 +27,7 @@ class Sim808:
         Check if SIM808 exists and functioning
         '''
         self.sim808.reset_input_buffer()
+        self.sim808.reset_output_buffer()
         self.send_command('AT\r\n')
         response = self.read_response()
         time.sleep(5)
