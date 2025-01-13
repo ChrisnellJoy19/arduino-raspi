@@ -34,8 +34,9 @@ class LostFoundDropOffDetection(tk.Canvas):
         custom_color = "#1E1E1E"
         label = tk.Label(self, text="Position the item close for accurate detection", font=("Arial", 14, 'italic'), bg="gray", fg=custom_color)
         label.place(x=220, y=385)
-
+        self.after(1000, self.start_detection)
         
+    def start_detection(self):
         compartment = self.root.memory['lost_and_found_dropoff']['compartment']
         if not self.root.debug:
             item_detected = False

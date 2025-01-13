@@ -44,13 +44,14 @@ class LostFoundConfirmRetrieval(tk.Canvas):
         self.tag_bind(self.confirm_retrieve_image, "<Button-1>", self.on_click)
 
     def on_click(self, event=None):
-        compartment = self.root.memory['retrieve']['compartment']
+        compartment = self.root.memory['lost_and_found_retrieve']['compartment']
         sender = self.root.memory['lost_and_found_dropoff']['sender']
         sender_contact = self.root.memory['lost_and_found_dropoff']['sender_contact']
         receiver = self.root.memory['lost_and_found_retrieve']['receiver']
         receiver_contact = self.root.memory['lost_and_found_retrieve']['receiver_contact']
         self.itemconfig(self.rect, fill="#0D2646")
 
+        
         if not self.root.debug:
             self.root.machine.compartments[str(compartment)].turn_off_relay()
         print("Compartment relay turned off")

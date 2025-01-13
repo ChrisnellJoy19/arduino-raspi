@@ -100,12 +100,7 @@ class LostFoundRetrievalCompartment(tk.Canvas):
             compartment = item_index
 
             if proceed:
-          
-                if not self.root.debug:
-                    self.root.machine.compartments[str(compartment)].turn_on_relay()
-                    self.root.machine.compartments[str(compartment)].turn_off_LED()
-                print("Compartment relay turned on")
-
+                self.root.memory['lost_and_found_retrieve']['compartment'] = compartment
                 self.root.memory['lost_and_found_retrieve']['receiver'] = self.root.memory['lost_and_found']['name']
                 self.root.memory['lost_and_found_retrieve']['receiver_contact'] = self.root.memory['lost_and_found']['contact']
 
@@ -114,6 +109,13 @@ class LostFoundRetrievalCompartment(tk.Canvas):
                 except Exception as e:
                     messagebox.showerror("Error retrieving item", str(e))
                     return
+                    
+                if not self.root.debug:
+                    self.root.machine.compartments[str(compartment)].turn_on_relay()
+                    self.root.machine.compartments[str(compartment)].turn_off_LED()
+                print("Compartment relay turned on")
+
+
 
                 message = f"You unlocked Compartment no. {item_index}"
                 messagebox.showinfo(f"Compartment no. {item_index}", message)

@@ -427,6 +427,7 @@ class Machine:
             .where(filter=FieldFilter('compartment_id', '==', compartment_id)) \
             .where(filter=FieldFilter('status', '==', TransactionStatus.pending)) \
             .limit(1) \
+            .get()
             
         if pending_transaction:
             self.logger.warning(f'Compartment {compartment_id} has pending transaction')

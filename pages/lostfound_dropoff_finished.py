@@ -38,18 +38,25 @@ class LostFoundDropOffFinished(tk.Canvas):
         self.tag_bind(self.drop_off_finished_image, "<Button-1>", self.on_click)
 
     def on_click(self, event=None):
+        print("Clicked")
         compartment = self.root.memory['lost_and_found_dropoff']['compartment']
+       
         self.itemconfig(self.rect, fill="#0D2646")
-
-        self.root.memory['lost_and_found_dropoff']['name'] = self.root.memory['lost_and_found']['name']
-        self.root.memory['lost_and_found_dropoff']['contact'] = self.root.memory['lost_and_found']['contact']
-        print(self.root.memory['lost_and_found_dropoff'])
-        self.root.machine.dropoff_lost_item(str(compartment), self.root.memory['lost_and_found_dropoff'])
 
         if not self.root.debug:
             self.root.machine.compartments[str(compartment)].turn_off_relay()
             self.root.machine.compartments[str(compartment)].set_color_red()
         print("Compartment relay turned off")
+
+        self.root.memory['lost_and_found_dropoff']['sender'] = self.root.memory['lost_and_found']['name']
+        self.root.memory['lost_and_found_dropoff']['sender_contact'] = self.root.memory['lost_and_found']['contact']
+        print(self.root.memory['lost_and_found_dropoff'])
+        self.root.machine.dropoff_lost_item(str(compartment), self.root.memory['lost_and_found_dropoff'])
+
+        # if not self.root.debug:
+        #     self.root.machine.compartments[str(compartment)].turn_off_relay()
+        #     self.root.machine.compartments[str(compartment)].set_color_red()
+        # print("Compartment relay turned off")
 
         # Show the next page
         self.root.show_welcome_page()
